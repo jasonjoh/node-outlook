@@ -1,6 +1,6 @@
 {
   "name": "node-outlook",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple wrapper around the Corodova Office 365 Library for use with Node.js",
   "main": "index.js",
   "scripts": {
