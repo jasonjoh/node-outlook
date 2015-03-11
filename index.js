@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
 var fs = require("fs");
+var path = require("path");
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-exchangefile = fs.readFileSync('./exchange-lib/exchange.js', 'utf8');
+var currentDirectory = path.dirname(fs.realpathSync(__filename));
+
+exchangefile = fs.readFileSync(path.join(currentDirectory, './exchange-lib/exchange.js'), 'utf8');
 eval(exchangefile);
-utilityfile = fs.readFileSync('./exchange-lib/utility.js', 'utf8');
+utilityfile = fs.readFileSync(path.join(currentDirectory, './exchange-lib/utility.js'), 'utf8');
 eval(utilityfile);
 
 exports.Microsoft = Microsoft;
