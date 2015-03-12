@@ -37,6 +37,10 @@ For more details on the syntax of using this library, see:
 - [Common calendar tasks](https://msdn.microsoft.com/en-us/office/office365/howto/common-calendar-tasks-client-library)
 - [Common contacts tasks](https://msdn.microsoft.com/en-us/office/office365/howto/common-contacts-tasks-client-library)
 
+## Sample App ##
+
+For a sample app that uses this library, see the [node-mail sample](https://github.com/jasonjoh/node-mail).
+
 ## Copyright ##
 
 Copyright (c) Microsoft. All rights reserved.
