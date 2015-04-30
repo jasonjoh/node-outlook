@@ -369,9 +369,10 @@ var Microsoft;
                         request.requestUri += (request.requestUri.indexOf('?') >= 0 ? '&' : '?') + this.extraQueryParameters;
                     }
 
-                    if ((!this._disableCacheOverride && request.disableCache) || (this._disableCacheOverride && this._disableCache)) {
-                        request.requestUri += (request.requestUri.indexOf('?') >= 0 ? '&' : '?') + '_=' + this._noCache++;
-                    }
+                    // Disabling this code as it is breaking the request URLs when paging
+                    //if ((!this._disableCacheOverride && request.disableCache) || (this._disableCacheOverride && this._disableCache)) {
+                    //    request.requestUri += (request.requestUri.indexOf('?') >= 0 ? '&' : '?') + '_=' + this._noCache++;
+                    //}
                 };
                 return DataContext;
             })();
