@@ -11,6 +11,8 @@ utilityfile = fs.readFileSync(path.join(currentDirectory, './exchange-lib/utilit
 eval(utilityfile);
 
 exports.Microsoft = Microsoft;
+exports.base = require('./version-2.js');
+exports.mail = require('./mail-api.js');
 
 /*
   MIT License: 
