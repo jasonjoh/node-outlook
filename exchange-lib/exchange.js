@@ -294,6 +294,7 @@ var Microsoft;
 
                     if (request.headers) {
                         for (name in request.headers) {
+                            console.log("  Header: ", name, request.headers[name]);
                             xhr.setRequestHeader(name, request.headers[name]);
                         }
                     }
@@ -341,8 +342,18 @@ var Microsoft;
                         deferred = new Microsoft.Utility.Deferred();
                         
                         this._getAccessTokenFn().then((function (token) {
+                            // This can now take an object that contains both the token and the user's email
+                            // This is so we can set the X-AnchorMailbox header to the user's email, which optimizes
+                            // API calls. Check the type returned. If it's just a string, this is being used the 'old' way
+                            // and we don't want to break that.
                             request.headers["X-ClientService-ClientTag"] = 'Office 365 API Tools, 1.1.0512';
-                            request.headers["Authorization"] = 'Bearer ' + token;
+                            if (typeof(token) == 'string') {
+                              request.headers["Authorization"] = 'Bearer ' + token;
+                            }
+                            else {
+                              request.headers["Authorization"] = 'Bearer ' + token.token;
+                              request.headers["X-AnchorMailbox"] = token.email;
+                            }
                             _this.ajax(request).then(deferred.resolve.bind(deferred), deferred.reject.bind(deferred));
                         }).bind(this), deferred.reject.bind(deferred));
                     } else {

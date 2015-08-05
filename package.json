@@ -1,6 +1,6 @@
 {
   "name": "node-outlook",
-  "version": "2.0.0",
+  "version": "1.0.3",
   "description": "A package for calling the Outlook APIs from Node. Includes a simple wrapper around the Corodova Office 365 Library, and a streamlined REST interface.",
   "main": "index.js",
   "scripts": {
