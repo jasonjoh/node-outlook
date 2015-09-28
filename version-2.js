@@ -21,7 +21,9 @@ module.exports = {
       - query (object)(optional):   An object containing key/value pairs. The pairs will be
                                     serialized into a query string.
       - payload (object)(optional): A JSON-serializable object representing the request body.
-      
+      - headers (object)(optional): A JSON-serializable object representing custom headers to send
+                                    with the request.
+
     - callback(function)(optional): A callback function that is called when the function completes.
                                     It should have the signature function (error, result).
   */
@@ -44,14 +46,13 @@ module.exports = {
     var auth = {
       'bearer': parameters.token
     };
-    
-    var headers = {
-      'Accept': 'application/json',
-      'User-Agent': 'node-outlook/2.0',
-      'client-request-id': uuid.v4(),
-      'return-client-request-id': 'true'
-    };
-    
+
+    var headers = parameters.headers || {};
+    headers['Accept'] = headers['Accept'] || 'application/json';
+    headers['User-Agent'] = headers['User-Agent'] || 'node-outlook/2.0';
+    headers['client-request-id'] = headers['client-request-id'] || uuid.v4();
+    headers['return-client-request-id'] = headers['return-client-request-id'] || 'true';
+
     var options = {
       method: method,
       url: parameters.url,
