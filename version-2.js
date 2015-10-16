@@ -5,6 +5,7 @@ var uuid = require('node-uuid');
 var fiddlerEnabled = false;
 var traceFunction = undefined;
 var endpoint = 'https://outlook.office.com/api/v2.0';
+var anchor = '';
 
 module.exports = {
   /**
@@ -44,6 +45,9 @@ module.exports = {
     headers['User-Agent'] = headers['User-Agent'] || 'node-outlook/2.0';
     headers['client-request-id'] = headers['client-request-id'] || uuid.v4();
     headers['return-client-request-id'] = headers['return-client-request-id'] || 'true';
+    if (anchor.length > 0) {
+      headers['X-Anchor-Mailbox'] = anchor;
+    }
 
     var options = {
       method: method,
@@ -95,6 +99,10 @@ module.exports = {
     fiddlerEnabled = enabled;
   },
   
+  /**
+   * Gets the API endpoint URL.
+   * @return {string}
+   */
   apiEndpoint: function() {
     return endpoint;
   },
@@ -104,9 +112,25 @@ module.exports = {
    * 
    * @param newEndPoint {string} The API endpoint URL to use.
    */
-  
   setApiEndpoint: function(newEndPoint) {
     endpoint = newEndPoint;
+  },
+  
+  /**
+   * Gets the anchor mailbox address.
+   * @return {string}
+   */
+  anchorMailbox: function() {
+    return anchor;
+  },
+  
+  /**
+   * Sets the anchor mailbox address.
+   * 
+   * @param newAnchor {string} The SMTP address to send in the `X-Anchor-Mailbox` header.
+   */
+  setAnchorMailbox: function(newAnchor) {
+    anchor = newAnchor;
   }
 };
 
