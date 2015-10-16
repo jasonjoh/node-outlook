@@ -4,27 +4,20 @@ var uuid = require('node-uuid');
 
 var fiddlerEnabled = false;
 var traceFunction = undefined;
-var endpoint = 'https://outlook.office365.com/api/v1.0';
+var endpoint = 'https://outlook.office.com/api/v2.0';
 
 module.exports = {
-  /*
-    makeApiCall
-    
-    Used to do the actual send of a REST request to the REST endpoint.
-    
-    Parameters:
-    - parameters(object)(required): An object containing all of the relevant parameters.
-      Possible values:
-      - url (string)(required):     The full URL of the API endpoint
-      - token (string)(required):   The access token for authentication
-      - method (string)(optional):  Used to specify the HTTP method. Default is 'GET'.
-      - query (object)(optional):   An object containing key/value pairs. The pairs will be
-                                    serialized into a query string.
-      - payload (object)(optional): A JSON-serializable object representing the request body.
-      
-    - callback(function)(optional): A callback function that is called when the function completes.
-                                    It should have the signature function (error, result).
-  */
+  /**
+   * Used to do the actual send of a REST request to the REST endpoint.
+   * 
+   * @param parameters {object} An object containing all of the relevant parameters. Possible values:
+   * @param parameters.url {string} The full URL of the API endpoint
+   * @param parameters.token {string} The access token for authentication
+   * @param [parameters.method] {string} Used to specify the HTTP method. Default is 'GET'.
+   * @param [parameters.query] {object} An object containing key/value pairs. The pairs will be serialized into a query string.
+   * @param [payload] {object}: A JSON-serializable object representing the request body.
+   * @param [callbac] {function}: A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   */
   makeApiCall: function (parameters, callback) {
     // Check required parameters
     if (parameters.url === undefined || parameters.token == undefined) {
@@ -84,28 +77,20 @@ module.exports = {
     });
   },
   
-  /*
-    setTraceFunc
-    
-    Used to provide a tracing function.
-    
-    Parameters:
-    - traceFunc(function)(required): A function that takes a string parameter. The string
-                                     parameter contains the text to add to the trace.
-  */
+  /**
+   * Used to provide a tracing function.
+   * 
+   * @param traceFunc {function} A function that takes a string parameter. The string parameter contains the text to add to the trace.
+   */
   setTraceFunc: function(traceFunc) {
     traceFunction = traceFunc;
   },
   
-  /*
-    setFiddlerEnabled
-    
-    Used to enable network sniffing with Fiddler.
-    
-    Parameters:
-    - enabled(bool)(required): 'true' to enable default Fiddler proxy and disable SSL verification.
-                               'false' to disable proxy and enable SSL verification.
-  */
+  /**
+   * Used to enable network sniffing with Fiddler.
+   * 
+   * @param enabled {boolean}: `true` to enable default Fiddler proxy and disable SSL verification. `false` to disable proxy and enable SSL verification.
+   */
   setFiddlerEnabled: function(enabled) {
     fiddlerEnabled = enabled;
   },
@@ -113,6 +98,12 @@ module.exports = {
   apiEndpoint: function() {
     return endpoint;
   },
+  
+  /**
+   * Sets the API endpoint URL. If not called, the default of `https://outlook.office.com/api/v2.0` is used.
+   * 
+   * @param newEndPoint {string} The API endpoint URL to use.
+   */
   
   setApiEndpoint: function(newEndPoint) {
     endpoint = newEndPoint;

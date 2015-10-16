@@ -2,29 +2,24 @@
 var base = require('./version-2.js');
 
 module.exports = {
-  /*
-    getMessages
-    
-    Used to get messages from a folder.
-    
-    Parameters:
-    - parameters(object)(required): An object containing all of the relevant parameters.
-      Possible values:
-      - token (string)(required):       The access token.
-      - user (string)(optional):        The SMTP address of the user. If absent, the 'Me'
-                                        is used.
-      - folderId (string)(optional):    The folder id. If absent, the API calls the /User/Messages endpoint.
-        Valid value types:
-        - The 'Id' property of a Folder entity
-        - A well-known folder name (Inbox, Drafts, SentItems, DeletedItems)
-        
-      - odataParams (object)(optional): An object containing key/value pairs representing OData
-                                        query parameters. See:
-                                        https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters
-      
-    - callback(function)(optional): A callback function that is called when the function completes.
-                                    It should have the signature function (error, result).
-  */
+  /**
+   * Used to get messages from a folder.
+   * 
+   * @param parameters {object} An object containing all of the relevant parameters. Possible values:
+   * @param parameters.token {string} The access token.
+   * @param [parameters.user] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
+   * @param [parameters.folderId] {string} The folder id. If absent, the API calls the /User/Messages endpoint. Valid values of this parameter are:
+   * 
+   * - The `Id` property of a `MailFolder` entity
+   * - `Inbox`
+   * - `Drafts`
+   * - `SentItems`
+   * - `DeletedItems`
+   * 
+   * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
+   * 
+   * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   */
   getMessages: function(parameters, callback){
     var userSpec = parameters.user === undefined ? '/Me' : '/Users/' + parameters.user;
     var folderSpec = parameters.folderId === undefined ? '' : '/folders/' + parameters.folderId;
@@ -48,7 +43,7 @@ module.exports = {
       }
       else if (response.statusCode !== 200) {
         if (typeof callback === 'function') {
-          callback('REST request returned ' + response.statusCode, response);
+          callback('REST request returned ' + response.statusCode + '; body: ' + JSON.stringify(response.body), response);
         }
       }
       else {
