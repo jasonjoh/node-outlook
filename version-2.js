@@ -15,8 +15,9 @@ module.exports = {
    * @param parameters.token {string} The access token for authentication
    * @param [parameters.method] {string} Used to specify the HTTP method. Default is 'GET'.
    * @param [parameters.query] {object} An object containing key/value pairs. The pairs will be serialized into a query string.
-   * @param [payload] {object}: A JSON-serializable object representing the request body.
-   * @param [callbac] {function}: A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   * @param [parameters.payload] {object}: A JSON-serializable object representing the request body.
+   * @param [parameters.headers] {object}: A JSON-serializable object representing custom headers to send with the request.
+   * @param [callback] {function}: A callback function that is called when the function completes. It should have the signature `function (error, result)`.
    */
   makeApiCall: function (parameters, callback) {
     // Check required parameters
@@ -37,14 +38,13 @@ module.exports = {
     var auth = {
       'bearer': parameters.token
     };
-    
-    var headers = {
-      'Accept': 'application/json',
-      'User-Agent': 'node-outlook/2.0',
-      'client-request-id': uuid.v4(),
-      'return-client-request-id': 'true'
-    };
-    
+
+    var headers = parameters.headers || {};
+    headers['Accept'] = headers['Accept'] || 'application/json';
+    headers['User-Agent'] = headers['User-Agent'] || 'node-outlook/2.0';
+    headers['client-request-id'] = headers['client-request-id'] || uuid.v4();
+    headers['return-client-request-id'] = headers['return-client-request-id'] || 'true';
+
     var options = {
       method: method,
       url: parameters.url,
