@@ -6,6 +6,7 @@ var fiddlerEnabled = false;
 var traceFunction = undefined;
 var endpoint = 'https://outlook.office.com/api/v2.0';
 var anchor = '';
+var timeZone = '';
 
 module.exports = {
   /**
@@ -47,6 +48,9 @@ module.exports = {
     headers['return-client-request-id'] = headers['return-client-request-id'] || 'true';
     if (anchor.length > 0) {
       headers['X-Anchor-Mailbox'] = anchor;
+    }
+    if (timeZone.length > 0) {
+      headers['Prefer'] = 'outlook.timezone = "' + timeZone + '"';
     }
 
     var options = {
@@ -131,6 +135,23 @@ module.exports = {
    */
   setAnchorMailbox: function(newAnchor) {
     anchor = newAnchor;
+  },
+  
+  /**
+   * Gets the preferred time zone.
+   * @return {string}
+   */
+  preferredTimeZone: function() {
+    return timeZone;
+  },
+  
+  /**
+   * Sets the preferred time zone.
+   * 
+   * @param preferredTimeZone {string} The time zone in which the server should return date time values.
+   */
+  setPreferredTimeZone: function(preferredTimeZone) {
+    timeZone = preferredTimeZone;
   }
 };
 
