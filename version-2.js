@@ -50,7 +50,8 @@ module.exports = {
       headers['X-Anchor-Mailbox'] = anchor;
     }
     if (timeZone.length > 0) {
-      headers['Prefer'] = 'outlook.timezone = "' + timeZone + '"';
+      headers['Prefer'] = headers['Prefer'] || {};
+      headers['Prefer'].push('outlook.timezone = "' + timeZone + '"');
     }
 
     var options = {
