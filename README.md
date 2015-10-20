@@ -29,7 +29,7 @@ Once installed, add the following to your source file:
 
 Configuration of the library is done via the `base` namespace:
 
-- `outlook.base.setApiEndpoint` - Use this to override the API endpoint. The default value uses the Outlook v2 enpoint: `https://outlook.office.com/api/v2.0`.
+- `outlook.base.setApiEndpoint` - Use this to override the API endpoint. The default value uses the Outlook v2 enpoint: `https://outlook.office.com/api/v1.0`.
 - `outlook.base.setAnchorMailbox` - Set this to the user's SMTP address to enable the API endpoint to efficiently route API requests.
 - `outlook.base.setPreferredTimeZone` - Use this to specify a time zone for the server to use to return date/time values in the Calendar API.
 

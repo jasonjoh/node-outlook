@@ -4,7 +4,7 @@ var uuid = require('node-uuid');
 
 var fiddlerEnabled = false;
 var traceFunction = undefined;
-var endpoint = 'https://outlook.office.com/api/v2.0';
+var endpoint = 'https://outlook.office.com/api/v1.0';
 var anchor = '';
 var timeZone = '';
 
@@ -23,7 +23,7 @@ module.exports = {
    */
   makeApiCall: function (parameters, callback) {
     // Check required parameters
-    if (parameters.url === undefined || parameters.token == undefined) {
+    if (parameters.url === undefined || parameters.token === undefined) {
       trace('makeApiCall - ERROR: Missing required parameter');
       if (typeof callback === 'function') {
         callback('ERROR: You must include the \'url\' and \'token\' parameters.');
