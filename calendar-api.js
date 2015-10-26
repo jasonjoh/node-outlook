@@ -46,6 +46,145 @@ module.exports = {
         }
       }
     });
+  },
+  
+  /**
+   * Used to get a specific event.
+   * 
+   * @param parameters {object} An object containing all of the relevant parameters. Possible values:
+   * @param parameters.token {string} The access token.
+   * @param parameters.eventId {string} The Id of the event.
+   * @param [parameters.user] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
+   * 
+   * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
+   * 
+   * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   */
+  getEvent: function(parameters, callback) {
+    var userSpec = parameters.user === undefined ? '/Me' : '/Users/' + parameters.user;
+    
+    var requestUrl = base.apiEndpoint() + userSpec + '/Events/' + parameters.eventId;
+    
+    var apiOptions = {
+      url: requestUrl,
+      token: parameters.token
+    };
+    
+    if (parameters.odataParams !== undefined) {
+      apiOptions['query'] = parameters.odataParams;
+    }
+    
+    base.makeApiCall(apiOptions, function(error, response) {
+      if (error) {
+        if (typeof callback === 'function') {
+          callback(error, response);
+        }
+      }
+      else if (response.statusCode !== 200) {
+        if (typeof callback === 'function') {
+          callback('REST request returned ' + response.statusCode + '; body: ' + JSON.stringify(response.body), response);
+        }
+      }
+      else {
+        if (typeof callback === 'function') {
+          callback(null, response.body);
+        }
+      }
+    });
+  },
+  
+  /**
+   * Update a specific event.
+   * 
+   * @param parameters {object} An object containing all of the relevant parameters. Possible values:
+   * @param parameters.token {string} The access token.
+   * @param parameters.eventId {string} The Id of the event.
+   * @param parameters.update {object}: The JSON-serializable update payload 
+   * @param [parameters.user] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
+   * 
+   * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
+   * 
+   * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   */
+  updateEvent: function(parameters, callback) {
+    var userSpec = parameters.user === undefined ? '/Me' : '/Users/' + parameters.user;
+    
+    var requestUrl = base.apiEndpoint() + userSpec + '/Events/' + parameters.eventId;
+    
+    var apiOptions = {
+      url: requestUrl,
+      token: parameters.token,
+      payload: parameters.update,
+      method: 'PATCH'
+    };
+    
+    if (parameters.odataParams !== undefined) {
+      apiOptions['query'] = parameters.odataParams;
+    }
+    
+    base.makeApiCall(apiOptions, function(error, response) {
+      if (error) {
+        if (typeof callback === 'function') {
+          callback(error, response);
+        }
+      }
+      else if (response.statusCode !== 200) {
+        if (typeof callback === 'function') {
+          callback('REST request returned ' + response.statusCode + '; body: ' + JSON.stringify(response.body), response);
+        }
+      }
+      else {
+        if (typeof callback === 'function') {
+          callback(null, response.body);
+        }
+      }
+    });
+  },
+  
+  /**
+   * Delete a specific event.
+   * 
+   * @param parameters {object} An object containing all of the relevant parameters. Possible values:
+   * @param parameters.token {string} The access token.
+   * @param parameters.eventId {string} The Id of the event.
+   * @param [parameters.user] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
+   * 
+   * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
+   * 
+   * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   */
+  deleteEvent: function(parameters, callback) {
+    var userSpec = parameters.user === undefined ? '/Me' : '/Users/' + parameters.user;
+    
+    var requestUrl = base.apiEndpoint() + userSpec + '/Events/' + parameters.eventId;
+    
+    var apiOptions = {
+      url: requestUrl,
+      token: parameters.token,
+      method: 'DELETE'
+    };
+    
+    if (parameters.odataParams !== undefined) {
+      apiOptions['query'] = parameters.odataParams;
+    }
+    
+    base.makeApiCall(apiOptions, function(error, response) {
+      if (error) {
+        if (typeof callback === 'function') {
+          callback(error, response);
+        }
+      }
+      else if (response.statusCode !== 204) {
+        if (typeof callback === 'function') {
+          callback('REST request returned ' + response.statusCode + '; body: ' + JSON.stringify(response.body), response);
+        }
+      }
+      else {
+        if (typeof callback === 'function') {
+          callback(null, response.body);
+        }
+      }
+    });
   }
 };
 
