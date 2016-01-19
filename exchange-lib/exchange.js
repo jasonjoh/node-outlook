@@ -287,14 +287,11 @@ var Microsoft;
                     if (!request.method) {
                         request.method = 'GET';
                     }
-                    console.log("ABOUT TO SEND");
-                    console.log("  Method:", request.method.toUpperCase());
-                    console.log("  URI:", request.requestUri);
+                    
                     xhr.open(request.method.toUpperCase(), request.requestUri, true);
 
                     if (request.headers) {
                         for (name in request.headers) {
-                            console.log("  Header: ", name, request.headers[name]);
                             xhr.setRequestHeader(name, request.headers[name]);
                         }
                     }
