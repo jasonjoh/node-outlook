@@ -5,8 +5,8 @@ var uuid = require('node-uuid');
 var fiddlerEnabled = false;
 var traceFunction = undefined;
 var endpoint = 'https://outlook.office.com/api/v1.0';
-var anchor = '';
-var timeZone = '';
+var defaultAnchor = '';
+var defaultTimeZone = '';
 
 module.exports = {
   /**
@@ -15,6 +15,8 @@ module.exports = {
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.url {string} The full URL of the API endpoint
    * @param parameters.token {string} The access token for authentication
+   * @param [parameters.user.email] {string} The user's SMTP email address, used to set the X-AnchorMailbox header.
+   * @param [parameters.user.timezone] {string} The user's time zone, used to set the outlook.timezone Prefer header.
    * @param [parameters.method] {string} Used to specify the HTTP method. Default is 'GET'.
    * @param [parameters.query] {object} An object containing key/value pairs. The pairs will be serialized into a query string.
    * @param [parameters.payload] {object}: A JSON-serializable object representing the request body.
@@ -46,12 +48,34 @@ module.exports = {
     headers['User-Agent'] = headers['User-Agent'] || 'node-outlook/2.0';
     headers['client-request-id'] = headers['client-request-id'] || uuid.v4();
     headers['return-client-request-id'] = headers['return-client-request-id'] || 'true';
-    if (anchor.length > 0) {
-      headers['X-Anchor-Mailbox'] = anchor;
+    
+    // Determine if we have an anchor mailbox to use
+    // Passed parameter has greater priority than module-level default
+    var anchorMbx = '';
+    if (parameters.user && parameters.user.email && parameters.user.email.length > 0) {
+      anchorMbx = parameters.user.email;
     }
-    if (timeZone.length > 0) {
+    else {
+      anchorMbx = defaultAnchor;
+    }
+    
+    if (anchorMbx.length > 0) {
+      headers['X-Anchor-Mailbox'] = anchorMbx;
+    }
+    
+    // Determine if we have a time zone to use
+    // Passed parameter has greater priority than module-level default
+    var timezone = '';
+    if (parameters.user && parameters.user.timezone && parameters.user.timezone.length > 0) {
+      timezone = parameters.user.timezone;
+    }
+    else {
+      timezone = defaultTimeZone;
+    }
+    
+    if (timezone.length > 0) {
       headers['Prefer'] = headers['Prefer'] || [];
-      headers['Prefer'].push('outlook.timezone = "' + timeZone + '"');
+      headers['Prefer'].push('outlook.timezone = "' + timezone + '"');
     }
 
     var options = {
@@ -113,7 +137,7 @@ module.exports = {
   },
   
   /**
-   * Sets the API endpoint URL. If not called, the default of `https://outlook.office.com/api/v2.0` is used.
+   * Sets the API endpoint URL. If not called, the default of `https://outlook.office.com/api/v1.0` is used.
    * 
    * @param newEndPoint {string} The API endpoint URL to use.
    */
@@ -122,37 +146,37 @@ module.exports = {
   },
   
   /**
-   * Gets the anchor mailbox address.
+   * Gets the default anchor mailbox address.
    * @return {string}
    */
   anchorMailbox: function() {
-    return anchor;
+    return defaultAnchor;
   },
   
   /**
-   * Sets the anchor mailbox address.
+   * Sets the default anchor mailbox address.
    * 
    * @param newAnchor {string} The SMTP address to send in the `X-Anchor-Mailbox` header.
    */
   setAnchorMailbox: function(newAnchor) {
-    anchor = newAnchor;
+    defaultAnchor = newAnchor;
   },
   
   /**
-   * Gets the preferred time zone.
+   * Gets the default preferred time zone.
    * @return {string}
    */
   preferredTimeZone: function() {
-    return timeZone;
+    return defaultTimeZone;
   },
   
   /**
-   * Sets the preferred time zone.
+   * Sets the default preferred time zone.
    * 
    * @param preferredTimeZone {string} The time zone in which the server should return date time values.
    */
   setPreferredTimeZone: function(preferredTimeZone) {
-    timeZone = preferredTimeZone;
+    defaultTimeZone = preferredTimeZone;
   }
 };
 
