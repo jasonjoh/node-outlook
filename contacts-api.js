@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
 
 var base = require('./version-2.js');
+var utilities = require('./utilities.js');
 
 module.exports = {
   /**
@@ -18,8 +19,7 @@ module.exports = {
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
    */
   getContacts: function(parameters, callback){
-    var useMeSegment = parameters.useMe || parameters.user === undefined || parameters.user.email === undefined || parameters.user.email.length <= 0;
-    var userSpec = useMeSegment ? '/Me' : '/Users/' + parameters.user.email;
+    var userSpec = utilities.getUserSegment(parameters);
     var contactFolderSpec = parameters.folderId === undefined ? '' : '/ContactFolders/' + parameters.folderId;
     
     var requestUrl = base.apiEndpoint() + userSpec + contactFolderSpec + '/Contacts';

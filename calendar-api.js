@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
 var base = require('./version-2.js');
+var utilities = require('./utilities.js');
 
 module.exports = {
   /**
@@ -11,14 +12,12 @@ module.exports = {
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.calendarId] {string} The calendar id. If absent, the API calls the `/User/Events` endpoint.
-   * 
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
    * 
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
    */
   getEvents: function(parameters, callback){
-    var useMeSegment = parameters.useMe || parameters.user === undefined || parameters.user.email === undefined || parameters.user.email.length <= 0;
-    var userSpec = useMeSegment ? '/Me' : '/Users/' + parameters.user.email;
+    var userSpec = utilities.getUserSegment(parameters);
     var calendarSpec = parameters.folderId === undefined ? '' : '/Calendars/' + parameters.folderId;
     
     var requestUrl = base.apiEndpoint() + userSpec + calendarSpec + '/Events';
@@ -62,12 +61,10 @@ module.exports = {
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
-   * 
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
    */
   getEvent: function(parameters, callback) {
-    var useMeSegment = parameters.useMe || parameters.user === undefined || parameters.user.email === undefined || parameters.user.email.length <= 0;
-    var userSpec = useMeSegment ? '/Me' : '/Users/' + parameters.user.email;
+    var userSpec = utilities.getUserSegment(parameters);
     
     var requestUrl = base.apiEndpoint() + userSpec + '/Events/' + parameters.eventId;
     
@@ -111,12 +108,10 @@ module.exports = {
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
-   * 
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
    */
   updateEvent: function(parameters, callback) {
-    var useMeSegment = parameters.useMe || parameters.user === undefined || parameters.user.email === undefined || parameters.user.email.length <= 0;
-    var userSpec = useMeSegment ? '/Me' : '/Users/' + parameters.user.email;
+    var userSpec = utilities.getUserSegment(parameters);
     
     var requestUrl = base.apiEndpoint() + userSpec + '/Events/' + parameters.eventId;
     
@@ -161,12 +156,10 @@ module.exports = {
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
-   * 
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
    */
   deleteEvent: function(parameters, callback) {
-    var useMeSegment = parameters.useMe || parameters.user === undefined || parameters.user.email === undefined || parameters.user.email.length <= 0;
-    var userSpec = useMeSegment ? '/Me' : '/Users/' + parameters.user.email;
+    var userSpec = utilities.getUserSegment(parameters);
     
     var requestUrl = base.apiEndpoint() + userSpec + '/Events/' + parameters.eventId;
     
