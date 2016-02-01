@@ -25,7 +25,7 @@ module.exports = {
   getMessages: function(parameters, callback){
     var useMeSegment = parameters.useMe || parameters.user === undefined || parameters.user.email === undefined || parameters.user.email.length <= 0;
     var userSpec = useMeSegment ? '/Me' : '/Users/' + parameters.user.email;
-    var folderSpec = parameters.folderId === undefined ? '' : '/Folders/' + parameters.folderId;
+    var folderSpec = parameters.folderId === undefined ? '' : getFolderSegment() + parameters.folderId;
     
     var requestUrl = base.apiEndpoint() + userSpec + folderSpec + '/Messages';
     
@@ -58,6 +58,19 @@ module.exports = {
     });
   }
 };
+
+/**
+ * Helper function to return the correct name for the folders segment
+ * of the request URL. /Me/Folders became /Me/MailFolders in the beta and
+ * 2.0 endpoints.
+ */
+var getFolderSegment = function() {
+  if (base.apiEndpoint().toLowerCase().indexOf('/api/v1.0') > 0){
+    return '/Folders/';
+  }
+  
+  return '/MailFolders/'
+}
 
 /*
   MIT License: 
