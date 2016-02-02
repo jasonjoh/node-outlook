@@ -8,6 +8,10 @@ var endpoint = 'https://outlook.office.com/api/v1.0';
 var defaultAnchor = '';
 var defaultTimeZone = '';
 
+/**
+ * @module base
+ */
+
 module.exports = {
   /**
    * Used to do the actual send of a REST request to the REST endpoint.
@@ -180,6 +184,9 @@ module.exports = {
   }
 };
 
+/**
+ * @private
+ */
 function trace(message) {
   if (typeof traceFunction === 'function') {
     traceFunction(message);

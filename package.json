@@ -4,7 +4,8 @@
   "description": "A package for calling the Outlook APIs from Node.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "jsdoc2md version-2.js mail-api.js calendar-api.js contacts-api.js > ./reference/node-outlook.md"
   },
   "keywords": [
     "office365",
@@ -27,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/jasonjoh/node-outlook/issues"
   },
-  "homepage": "https://github.com/jasonjoh/node-outlook"
+  "homepage": "https://github.com/jasonjoh/node-outlook",
+  "devDependencies": {
+    "jsdoc-to-markdown": "^1.3.3"
+  }
 }

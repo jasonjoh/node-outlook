@@ -2,6 +2,10 @@
 var base = require('./version-2.js');
 var utilities = require('./utilities.js');
 
+/**
+ * @module mail
+ */
+
 module.exports = {
   /**
    * Used to get messages from a folder.
@@ -340,6 +344,7 @@ module.exports = {
  * Helper function to return the correct name for the folders segment
  * of the request URL. /Me/Folders became /Me/MailFolders in the beta and
  * 2.0 endpoints.
+ * @private
  */
 var getFolderSegment = function() {
   if (base.apiEndpoint().toLowerCase().indexOf('/api/v1.0') > 0){

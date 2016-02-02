@@ -25,6 +25,8 @@ Once installed, add the following to your source file:
 
 ### New interface ###
 
+The new interface is documented in a simple [reference](reference/node-outlook.md) (courtesy of [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown)).
+
 #### Configuration ####
 
 Configuration of the library is done via the `base` namespace:

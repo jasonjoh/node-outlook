@@ -3,6 +3,10 @@
 var base = require('./version-2.js');
 var utilities = require('./utilities.js');
 
+/**
+ * @module contacts
+ */
+
 module.exports = {
   /**
    * Used to get contacts from a contact folder.
