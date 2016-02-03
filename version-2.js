@@ -19,13 +19,13 @@ module.exports = {
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.url {string} The full URL of the API endpoint
    * @param parameters.token {string} The access token for authentication
-   * @param [parameters.user.email] {string} The user's SMTP email address, used to set the X-AnchorMailbox header.
-   * @param [parameters.user.timezone] {string} The user's time zone, used to set the outlook.timezone Prefer header.
+   * @param [parameters.user.email] {string} The user's SMTP email address, used to set the `X-AnchorMailbox` header.
+   * @param [parameters.user.timezone] {string} The user's time zone, used to set the `outlook.timezone` `Prefer` header.
    * @param [parameters.method] {string} Used to specify the HTTP method. Default is 'GET'.
    * @param [parameters.query] {object} An object containing key/value pairs. The pairs will be serialized into a query string.
-   * @param [parameters.payload] {object}: A JSON-serializable object representing the request body.
-   * @param [parameters.headers] {object}: A JSON-serializable object representing custom headers to send with the request.
-   * @param [callback] {function}: A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   * @param [parameters.payload] {object} A JSON-serializable object representing the request body.
+   * @param [parameters.headers] {object} A JSON-serializable object representing custom headers to send with the request.
+   * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
    */
   makeApiCall: function (parameters, callback) {
     // Check required parameters
@@ -126,7 +126,7 @@ module.exports = {
   /**
    * Used to enable network sniffing with Fiddler.
    * 
-   * @param enabled {boolean}: `true` to enable default Fiddler proxy and disable SSL verification. `false` to disable proxy and enable SSL verification.
+   * @param enabled {boolean} `true` to enable default Fiddler proxy and disable SSL verification. `false` to disable proxy and enable SSL verification.
    */
   setFiddlerEnabled: function(enabled) {
     fiddlerEnabled = enabled;

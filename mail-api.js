@@ -12,8 +12,8 @@ module.exports = {
    * 
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
-   * @param [parameters.useMe] {boolean} If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case).
-   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
+   * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
+   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.folderId] {string} The folder id. If absent, the API calls the `/User/Messages` endpoint. Valid values of this parameter are:
    * 
@@ -26,6 +26,41 @@ module.exports = {
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
    * 
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   * 
+   * @example var outlook = require('node-outlook');
+   * 
+   * // Set the API endpoint to use the v2.0 endpoint
+   * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
+   * 
+   * // This is the oAuth token 
+   * var token = 'eyJ0eXAiOiJKV1Q...';
+   * 
+   * // Set up oData parameters
+   * var queryParams = {
+   *   '$select': 'Subject,ReceivedDateTime,From',
+   *   '$orderby': 'ReceivedDateTime desc',
+   *   '$top': 20
+   * };
+   * 
+   * // Pass the user's email address
+   * var userInfo = {
+   *   email: 'sarad@contoso.com'
+   * };
+   * 
+   * outlook.mail.getMessages({token: token, folderId: 'Inbox', odataParams: queryParams, user: userInfo},
+   *   function(error, result){
+   *     if (error) {
+   *       console.log('getMessages returned an error: ' + error);
+   *     }
+   *     else if (result) {
+   *       console.log('getMessages returned ' + result.value.length + ' messages.');
+   *       result.value.forEach(function(message) {
+   *         console.log('  Subject:', message.Subject);
+   *         console.log('  Received:', message.ReceivedDateTime.toString());
+   *         console.log('  From:', message.From ? message.From.EmailAddress.Name : 'EMPTY');
+   *       });
+   *     }
+   *   });
    */
   getMessages: function(parameters, callback){
     var userSpec = utilities.getUserSegment(parameters);
@@ -68,11 +103,45 @@ module.exports = {
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.messageId {string} The Id of the message.
-   * @param [parameters.useMe] {boolean} If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case).
-   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
+   * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
+   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   * 
+   * @example var outlook = require('node-outlook');
+   * 
+   * // Set the API endpoint to use the v2.0 endpoint
+   * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
+   * 
+   * // This is the oAuth token 
+   * var token = 'eyJ0eXAiOiJKV1Q...';
+   * 
+   * // The Id property of the message to retrieve. This could be 
+   * // from a previous call to getMessages
+   * var msgId = 'AAMkADVhYTYwNzk...';
+   * 
+   * // Set up oData parameters
+   * var queryParams = {
+   *   '$select': 'Subject,ReceivedDateTime,From'
+   * };
+   * 
+   * // Pass the user's email address
+   * var userInfo = {
+   *   email: 'sarad@contoso.com'
+   * };
+   * 
+   * outlook.mail.getMessage({token: token, messageId: msgId, odataParams: queryParams, user: userInfo},
+   *   function(error, result){
+   *     if (error) {
+   *       console.log('getMessage returned an error: ' + error);
+   *     }
+   *     else if (result) {
+   *       console.log('  Subject:', result.Subject);
+   *       console.log('  Received:', result.ReceivedDateTime.toString());
+   *       console.log('  From:', result.From ? result.From.EmailAddress.Name : 'EMPTY');
+   *     }
+   *   });
    */
   getMessage: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
@@ -113,12 +182,51 @@ module.exports = {
    * 
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
-   * @param parameters.message {object}: The JSON-serializable message 
-   * @param [parameters.useMe] {boolean} If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case).
-   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
+   * @param parameters.message {object} The JSON-serializable message 
+   * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
+   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.folderId] {string} The folder id. If absent, the API calls the `/User/Messages` endpoint.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   * 
+   * @example var outlook = require('node-outlook');
+   * 
+   * // Set the API endpoint to use the v2.0 endpoint
+   * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
+   * 
+   * // This is the oAuth token 
+   * var token = 'eyJ0eXAiOiJKV1Q...';
+   * 
+   * var newMsg = {
+   *   Subject: 'Did you see last night's game?',
+   *   Importance: 'Low',
+   *   Body: {
+   *     ContentType: 'HTML',
+   *     Content: 'They were <b>awesome</b>!'
+   *   },
+   *   ToRecipients: [
+   *     {
+   *       EmailAddress: {
+   *         Address: 'azizh@contoso.com'
+   *       }
+   *     }
+   *   ]
+   * };
+   * 
+   * // Pass the user's email address
+   * var userInfo = {
+   *   email: 'sarad@contoso.com'
+   * };
+   * 
+   * outlook.mail.createMessage({token: token, message: newMsg, user: userInfo},
+   *   function(error, result){
+   *     if (error) {
+   *       console.log('createMessage returned an error: ' + error);
+   *     }
+   *     else if (result) {
+   *       console.log(JSON.stringify(result, null, 2));
+   *     }
+   *   });
    */
   createMessage: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
@@ -159,12 +267,44 @@ module.exports = {
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.messageId {string} The Id of the message.
-   * @param parameters.update {object}: The JSON-serializable update payload 
-   * @param [parameters.useMe] {boolean} If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case).
-   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
+   * @param parameters.update {object} The JSON-serializable update payload 
+   * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
+   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   * 
+   * @example var outlook = require('node-outlook');
+   * 
+   * // Set the API endpoint to use the v2.0 endpoint
+   * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
+   * 
+   * // This is the oAuth token 
+   * var token = 'eyJ0eXAiOiJKV1Q...';
+   * 
+   * // The Id property of the message to update. This could be 
+   * // from a previous call to getMessages
+   * var msgId = 'AAMkADVhYTYwNzk...';
+   * 
+   * // Mark the message unread
+   * var update = {
+   *   IsRead: false,
+   * };
+   * 
+   * // Pass the user's email address
+   * var userInfo = {
+   *   email: 'sarad@contoso.com'
+   * };
+   * 
+   * outlook.mail.updateMessage({token: token, messageId: msgId, update: update, user: userInfo},
+   *   function(error, result){
+   *     if (error) {
+   *       console.log('updateMessage returned an error: ' + error);
+   *     }
+   *     else if (result) {
+   *       console.log(JSON.stringify(result, null, 2));
+   *     }
+   *   });
    */
   updateMessage: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
@@ -208,10 +348,37 @@ module.exports = {
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.messageId {string} The Id of the message.
-   * @param [parameters.useMe] {boolean} If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case).
-   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
+   * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
+   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   * 
+   * @example var outlook = require('node-outlook');
+   * 
+   * // Set the API endpoint to use the v2.0 endpoint
+   * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
+   * 
+   * // This is the oAuth token 
+   * var token = 'eyJ0eXAiOiJKV1Q...';
+   * 
+   * // The Id property of the message to delete. This could be 
+   * // from a previous call to getMessages
+   * var msgId = 'AAMkADVhYTYwNzk...';
+   * 
+   * // Pass the user's email address
+   * var userInfo = {
+   *   email: 'sarad@contoso.com'
+   * };
+   * 
+   * outlook.mail.deleteMessage({token: token, messageId: msgId, user: userInfo},
+   *   function(error, result){
+   *     if (error) {
+   *       console.log('deleteMessage returned an error: ' + error);
+   *     }
+   *     else if (result) {
+   *       console.log('SUCCESS');
+   *     }
+   *   });
    */
   deleteMessage: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
@@ -253,12 +420,51 @@ module.exports = {
    * 
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
-   * @param parameters.message {object}: The JSON-serializable message 
-   * @param [parameters.saveToSentItems] {boolean}: Set to false to bypass saving a copy to the Sent Items folder. Default is true.
-   * @param [parameters.useMe] {boolean} If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case).
-   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
+   * @param parameters.message {object} The JSON-serializable message 
+   * @param [parameters.saveToSentItems] {boolean} Set to false to bypass saving a copy to the Sent Items folder. Default is true.
+   * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
+   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   * 
+   * @example var outlook = require('node-outlook');
+   * 
+   * // Set the API endpoint to use the v2.0 endpoint
+   * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
+   * 
+   * // This is the oAuth token 
+   * var token = 'eyJ0eXAiOiJKV1Q...';
+   * 
+   * var newMsg = {
+   *   Subject: 'Did you see last night's game?',
+   *   Importance: 'Low',
+   *   Body: {
+   *     ContentType: 'HTML',
+   *     Content: 'They were <b>awesome</b>!'
+   *   },
+   *   ToRecipients: [
+   *     {
+   *       EmailAddress: {
+   *         Address: 'azizh@contoso.com'
+   *       }
+   *     }
+   *   ]
+   * };
+   * 
+   * // Pass the user's email address
+   * var userInfo = {
+   *   email: 'sarad@contoso.com'
+   * };
+   * 
+   * outlook.mail.sendNewMessage({token: token, message: newMsg, user: userInfo},
+   *   function(error, result){
+   *     if (error) {
+   *       console.log('sendNewMessage returned an error: ' + error);
+   *     }
+   *     else if (result) {
+   *       console.log(JSON.stringify(result, null, 2));
+   *     }
+   *   });
    */
   sendNewMessage: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
@@ -303,10 +509,37 @@ module.exports = {
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.messageId {string} The Id of the message.
-   * @param [parameters.useMe] {boolean} If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case).
-   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the '/Me' segment is used in the API URL.
+   * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
+   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   * 
+   * @example var outlook = require('node-outlook');
+   * 
+   * // Set the API endpoint to use the v2.0 endpoint
+   * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
+   * 
+   * // This is the oAuth token 
+   * var token = 'eyJ0eXAiOiJKV1Q...';
+   * 
+   * // The Id property of the message to send. This could be 
+   * // from a previous call to getMessages
+   * var msgId = 'AAMkADVhYTYwNzk...';
+   * 
+   * // Pass the user's email address
+   * var userInfo = {
+   *   email: 'sarad@contoso.com'
+   * };
+   * 
+   * outlook.mail.sendDraftMessage({token: token, messageId: msgId, user: userInfo},
+   *   function(error, result){
+   *     if (error) {
+   *       console.log('sendDraftMessage returned an error: ' + error);
+   *     }
+   *     else if (result) {
+   *       console.log('SUCCESS');
+   *     }
+   *   });
    */
   sendDraftMessage: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);

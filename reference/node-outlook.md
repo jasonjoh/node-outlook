@@ -36,13 +36,13 @@ Used to do the actual send of a REST request to the REST endpoint.
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.url | <code>string</code> | The full URL of the API endpoint |
 | parameters.token | <code>string</code> | The access token for authentication |
-| [parameters.user.email] | <code>string</code> | The user's SMTP email address, used to set the X-AnchorMailbox header. |
-| [parameters.user.timezone] | <code>string</code> | The user's time zone, used to set the outlook.timezone Prefer header. |
+| [parameters.user.email] | <code>string</code> | The user's SMTP email address, used to set the `X-AnchorMailbox` header. |
+| [parameters.user.timezone] | <code>string</code> | The user's time zone, used to set the `outlook.timezone` `Prefer` header. |
 | [parameters.method] | <code>string</code> | Used to specify the HTTP method. Default is 'GET'. |
 | [parameters.query] | <code>object</code> | An object containing key/value pairs. The pairs will be serialized into a query string. |
-| [parameters.payload] | <code>object</code> | : A JSON-serializable object representing the request body. |
-| [parameters.headers] | <code>object</code> | : A JSON-serializable object representing custom headers to send with the request. |
-| [callback] | <code>function</code> | : A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
+| [parameters.payload] | <code>object</code> | A JSON-serializable object representing the request body. |
+| [parameters.headers] | <code>object</code> | A JSON-serializable object representing custom headers to send with the request. |
+| [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
 <a name="module_base.setTraceFunc"></a>
 ### base.setTraceFunc(traceFunc)
@@ -62,7 +62,7 @@ Used to enable network sniffing with Fiddler.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| enabled | <code>boolean</code> | : `true` to enable default Fiddler proxy and disable SSL verification. `false` to disable proxy and enable SSL verification. |
+| enabled | <code>boolean</code> | `true` to enable default Fiddler proxy and disable SSL verification. `false` to disable proxy and enable SSL verification. |
 
 <a name="module_base.apiEndpoint"></a>
 ### base.apiEndpoint() ⇒ <code>string</code>
@@ -131,13 +131,17 @@ Used to get messages from a folder.
 | --- | --- | --- |
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [parameters.folderId] | <code>string</code> | The folder id. If absent, the API calls the `/User/Messages` endpoint. Valid values of this parameter are: - The `Id` property of a `MailFolder` entity - `Inbox` - `Drafts` - `SentItems` - `DeletedItems` |
 | [parameters.odataParams] | <code>object</code> | An object containing key/value pairs representing OData query parameters. See [Use OData query parameters](https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters) for details. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// Set up oData parametersvar queryParams = {  '$select': 'Subject,ReceivedDateTime,From',  '$orderby': 'ReceivedDateTime desc',  '$top': 20};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.getMessages({token: token, folderId: 'Inbox', odataParams: queryParams, user: userInfo},  function(error, result){    if (error) {      console.log('getMessages returned an error: ' + error);    }    else if (result) {      console.log('getMessages returned ' + result.value.length + ' messages.');      result.value.forEach(function(message) {        console.log('  Subject:', message.Subject);        console.log('  Received:', message.ReceivedDateTime.toString());        console.log('  From:', message.From ? message.From.EmailAddress.Name : 'EMPTY');      });    }  });
+```
 <a name="module_mail.getMessage"></a>
 ### mail.getMessage(parameters, [callback])
 Used to get a specific message.
@@ -149,12 +153,16 @@ Used to get a specific message.
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
 | parameters.messageId | <code>string</code> | The Id of the message. |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [parameters.odataParams] | <code>object</code> | An object containing key/value pairs representing OData query parameters. See [Use OData query parameters](https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters) for details. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the message to retrieve. This could be // from a previous call to getMessagesvar msgId = 'AAMkADVhYTYwNzk...';// Set up oData parametersvar queryParams = {  '$select': 'Subject,ReceivedDateTime,From'};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.getMessage({token: token, messageId: msgId, odataParams: queryParams, user: userInfo},  function(error, result){    if (error) {      console.log('getMessage returned an error: ' + error);    }    else if (result) {      console.log('  Subject:', result.Subject);      console.log('  Received:', result.ReceivedDateTime.toString());      console.log('  From:', result.From ? result.From.EmailAddress.Name : 'EMPTY');    }  });
+```
 <a name="module_mail.createMessage"></a>
 ### mail.createMessage(parameters, [callback])
 Create a new message
@@ -165,13 +173,17 @@ Create a new message
 | --- | --- | --- |
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
-| parameters.message | <code>object</code> | : The JSON-serializable message |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| parameters.message | <code>object</code> | The JSON-serializable message |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [parameters.folderId] | <code>string</code> | The folder id. If absent, the API calls the `/User/Messages` endpoint. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';var newMsg = {  Subject: 'Did you see last night's game?',  Importance: 'Low',  Body: {    ContentType: 'HTML',    Content: 'They were <b>awesome</b>!'  },  ToRecipients: [    {      EmailAddress: {        Address: 'azizh@contoso.com'      }    }  ]};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.createMessage({token: token, message: newMsg, user: userInfo},  function(error, result){    if (error) {      console.log('createMessage returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
+```
 <a name="module_mail.updateMessage"></a>
 ### mail.updateMessage(parameters, [callback])
 Update a specific message.
@@ -183,13 +195,17 @@ Update a specific message.
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
 | parameters.messageId | <code>string</code> | The Id of the message. |
-| parameters.update | <code>object</code> | : The JSON-serializable update payload |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| parameters.update | <code>object</code> | The JSON-serializable update payload |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [parameters.odataParams] | <code>object</code> | An object containing key/value pairs representing OData query parameters. See [Use OData query parameters](https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters) for details. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the message to update. This could be // from a previous call to getMessagesvar msgId = 'AAMkADVhYTYwNzk...';// Mark the message unreadvar update = {  IsRead: false,};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.updateMessage({token: token, messageId: msgId, update: update, user: userInfo},  function(error, result){    if (error) {      console.log('updateMessage returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
+```
 <a name="module_mail.deleteMessage"></a>
 ### mail.deleteMessage(parameters, [callback])
 Delete a specific message.
@@ -201,11 +217,15 @@ Delete a specific message.
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
 | parameters.messageId | <code>string</code> | The Id of the message. |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the message to delete. This could be // from a previous call to getMessagesvar msgId = 'AAMkADVhYTYwNzk...';// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.deleteMessage({token: token, messageId: msgId, user: userInfo},  function(error, result){    if (error) {      console.log('deleteMessage returned an error: ' + error);    }    else if (result) {      console.log('SUCCESS');    }  });
+```
 <a name="module_mail.sendNewMessage"></a>
 ### mail.sendNewMessage(parameters, [callback])
 Sends a new message
@@ -216,13 +236,17 @@ Sends a new message
 | --- | --- | --- |
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
-| parameters.message | <code>object</code> | : The JSON-serializable message |
-| [parameters.saveToSentItems] | <code>boolean</code> | : Set to false to bypass saving a copy to the Sent Items folder. Default is true. |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| parameters.message | <code>object</code> | The JSON-serializable message |
+| [parameters.saveToSentItems] | <code>boolean</code> | Set to false to bypass saving a copy to the Sent Items folder. Default is true. |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';var newMsg = {  Subject: 'Did you see last night's game?',  Importance: 'Low',  Body: {    ContentType: 'HTML',    Content: 'They were <b>awesome</b>!'  },  ToRecipients: [    {      EmailAddress: {        Address: 'azizh@contoso.com'      }    }  ]};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.sendNewMessage({token: token, message: newMsg, user: userInfo},  function(error, result){    if (error) {      console.log('sendNewMessage returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
+```
 <a name="module_mail.sendDraftMessage"></a>
 ### mail.sendDraftMessage(parameters, [callback])
 Sends a draft message.
@@ -234,11 +258,15 @@ Sends a draft message.
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
 | parameters.messageId | <code>string</code> | The Id of the message. |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the message to send. This could be // from a previous call to getMessagesvar msgId = 'AAMkADVhYTYwNzk...';// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.sendDraftMessage({token: token, messageId: msgId, user: userInfo},  function(error, result){    if (error) {      console.log('sendDraftMessage returned an error: ' + error);    }    else if (result) {      console.log('SUCCESS');    }  });
+```
 <a name="module_calendar"></a>
 ## calendar
 
@@ -259,13 +287,17 @@ Used to get events from a calendar.
 | --- | --- | --- |
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [parameters.calendarId] | <code>string</code> | The calendar id. If absent, the API calls the `/User/Events` endpoint. |
 | [parameters.odataParams] | <code>object</code> | An object containing key/value pairs representing OData query parameters. See [Use OData query parameters](https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters) for details. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// Set up oData parametersvar queryParams = {  '$select': 'Subject,Start,End',  '$orderby': 'Start/DateTime desc',  '$top': 20};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.calendar.getEvents({token: token, folderId: 'Inbox', odataParams: queryParams, user: userInfo},  function(error, result){    if (error) {      console.log('getEvents returned an error: ' + error);    }    else if (result) {      console.log('getEvents returned ' + result.value.length + ' events.');      result.value.forEach(function(event) {        console.log('  Subject:', event.Subject);        console.log('  Start:', event.Start.DateTime.toString());        console.log('  End:', event.End.DateTime.toString());      });    }  });
+```
 <a name="module_calendar.getEvent"></a>
 ### calendar.getEvent(parameters, [callback])
 Used to get a specific event.
@@ -277,12 +309,16 @@ Used to get a specific event.
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
 | parameters.eventId | <code>string</code> | The Id of the event. |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [parameters.odataParams] | <code>object</code> | An object containing key/value pairs representing OData query parameters. See [Use OData query parameters](https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters) for details. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the event to retrieve. This could be // from a previous call to getEventsvar eventId = 'AAMkADVhYTYwNzk...';// Set up oData parametersvar queryParams = {  '$select': 'Subject,Start,End'};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.calendar.getEvent({token: token, eventId: eventId, odataParams: queryParams, user: userInfo},  function(error, result){    if (error) {      console.log('getEvent returned an error: ' + error);    }    else if (result) {      console.log('  Subject:', result.Subject);      console.log('  Start:', result.Start.DateTime.toString());      console.log('  End:', result.End.DateTime.toString());    }  });
+```
 <a name="module_calendar.createEvent"></a>
 ### calendar.createEvent(parameters, [callback])
 Create a new event
@@ -293,13 +329,17 @@ Create a new event
 | --- | --- | --- |
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
-| parameters.event | <code>object</code> | : The JSON-serializable event |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| parameters.event | <code>object</code> | The JSON-serializable event |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [parameters.calendarId] | <code>string</code> | The calendar id. If absent, the API calls the `/User/Events` endpoint. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';var newEvent = {  "Subject": "Discuss the Calendar REST API",  "Body": {    "ContentType": "HTML",    "Content": "I think it will meet our requirements!"  },  "Start": {    "DateTime": "2016-02-03T18:00:00",    "TimeZone": "Eastern Standard Time"  },  "End": {    "DateTime": "2016-02-03T19:00:00",    "TimeZone": "Eastern Standard Time"  },  "Attendees": [    {      "EmailAddress": {        "Address": "allieb@contoso.com",        "Name": "Allie Bellew"      },      "Type": "Required"    }  ]};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.calendar.createEvent({token: token, event: newEvent, user: userInfo},  function(error, result){    if (error) {      console.log('createEvent returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
+```
 <a name="module_calendar.updateEvent"></a>
 ### calendar.updateEvent(parameters, [callback])
 Update a specific event.
@@ -311,13 +351,17 @@ Update a specific event.
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
 | parameters.eventId | <code>string</code> | The Id of the event. |
-| parameters.update | <code>object</code> | : The JSON-serializable update payload |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| parameters.update | <code>object</code> | The JSON-serializable update payload |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [parameters.odataParams] | <code>object</code> | An object containing key/value pairs representing OData query parameters. See [Use OData query parameters](https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters) for details. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the event to update. This could be // from a previous call to getEventsvar eventId = 'AAMkADVhYTYwNzk...';// Update the locationvar update = {  Location: {    DisplayName: 'Conference Room 2'  }};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.calendar.updateEvent({token: token, eventId: eventId, update: update, user: userInfo},  function(error, result){    if (error) {      console.log('updateEvent returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
+```
 <a name="module_calendar.deleteEvent"></a>
 ### calendar.deleteEvent(parameters, [callback])
 Delete a specific event.
@@ -329,11 +373,15 @@ Delete a specific event.
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
 | parameters.eventId | <code>string</code> | The Id of the event. |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the event to delete. This could be // from a previous call to getEventsvar eventId = 'AAMkADVhYTYwNzk...';// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.calendar.deleteEvent({token: token, eventId: eventId, user: userInfo},  function(error, result){    if (error) {      console.log('deleteEvent returned an error: ' + error);    }    else if (result) {      console.log('SUCCESS');    }  });
+```
 <a name="module_contacts"></a>
 ## contacts
 
@@ -354,13 +402,17 @@ Used to get contacts from a contact folder.
 | --- | --- | --- |
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segement instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segement is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [parameters.contactFolderId] | <code>string</code> | The contact folder id. If absent, the API calls the `/User/Contacts` endpoint. |
 | [parameters.odataParams] | <code>object</code> | An object containing key/value pairs representing OData query parameters. See [Use OData query parameters](https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters) for details. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// Set up oData parametersvar queryParams = {  '$select': 'GivenName,Surname,EmailAddresses',  '$orderby': 'CreatedDateTime desc',  '$top': 20};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.contacts.getContacts({token: token, odataParams: queryParams, user: userInfo},  function(error, result){    if (error) {      console.log('getContacts returned an error: ' + error);    }    else if (result) {      console.log('getContacts returned ' + result.value.length + ' contacts.');      result.value.forEach(function(contact) {        console.log('  GivenName:', contact.GivenName);        console.log('  Surname:', contact.Surname);        console.log('  Email Address:', contact.EmailAddresses[0] ? contact.EmailAddresses[0].Address : "NONE");      });    }  });
+```
 <a name="module_contacts.getContact"></a>
 ### contacts.getContact(parameters, [callback])
 Used to get a specific contact.
@@ -372,12 +424,16 @@ Used to get a specific contact.
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
 | parameters.contactId | <code>string</code> | The Id of the contact. |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [parameters.odataParams] | <code>object</code> | An object containing key/value pairs representing OData query parameters. See [Use OData query parameters](https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters) for details. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the contact to retrieve. This could be // from a previous call to getContactsvar contactId = 'AAMkADVhYTYwNzk...';// Set up oData parametersvar queryParams = {  '$select': 'GivenName,Surname,EmailAddresses'};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.contacts.getContact({token: token, contactId: contactId, odataParams: queryParams, user: userInfo},  function(error, result){    if (error) {      console.log('getContact returned an error: ' + error);    }    else if (result) {      console.log('  GivenName:', result.GivenName);      console.log('  Surname:', result.Surname);      console.log('  Email Address:', result.EmailAddresses[0] ? result.EmailAddresses[0].Address : "NONE");    }  });
+```
 <a name="module_contacts.createContact"></a>
 ### contacts.createContact(parameters, [callback])
 Create a new contact
@@ -388,13 +444,17 @@ Create a new contact
 | --- | --- | --- |
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
-| parameters.contact | <code>object</code> | : The JSON-serializable contact |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| parameters.contact | <code>object</code> | The JSON-serializable contact |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [parameters.contactFolderId] | <code>string</code> | The contact folder id. If absent, the API calls the `/User/Contacts` endpoint. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';var newContact = {  "GivenName": "Pavel",  "Surname": "Bansky",  "EmailAddresses": [    {      "Address": "pavelb@contoso.com",      "Name": "Pavel Bansky"    }  ],  "BusinessPhones": [    "+1 732 555 0102"  ]};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.contacts.createContact({token: token, contact: newContact, user: userInfo},  function(error, result){    if (error) {      console.log('createContact returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
+```
 <a name="module_contacts.updateContact"></a>
 ### contacts.updateContact(parameters, [callback])
 Update a specific contact.
@@ -406,13 +466,17 @@ Update a specific contact.
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
 | parameters.contactId | <code>string</code> | The Id of the contact. |
-| parameters.update | <code>object</code> | : The JSON-serializable update payload |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| parameters.update | <code>object</code> | The JSON-serializable update payload |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [parameters.odataParams] | <code>object</code> | An object containing key/value pairs representing OData query parameters. See [Use OData query parameters](https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters) for details. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the contact to update. This could be // from a previous call to getContactsvar contactId = 'AAMkADVhYTYwNzk...';// Change the mobile numbervar update = {  MobilePhone1: '425-555-1212',};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.contacts.updateContact({token: token, contactId: contactId, update: update, user: userInfo},  function(error, result){    if (error) {      console.log('updateContact returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
+```
 <a name="module_contacts.deleteContact"></a>
 ### contacts.deleteContact(parameters, [callback])
 Delete a specific contact.
@@ -424,8 +488,12 @@ Delete a specific contact.
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
 | parameters.contactId | <code>string</code> | The Id of the contact. |
-| [parameters.useMe] | <code>boolean</code> | If true, use the /Me segment instead of the /Users/<email> segment. This parameter defaults to false and is ignored if the parameters.user.email parameter isn't provided (the /Me segment is always used in this case). |
-| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the '/Me' segment is used in the API URL. |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
 | [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the contact to delete. This could be // from a previous call to getContactsvar contactId = 'AAMkADVhYTYwNzk...';// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.contacts.deleteContact({token: token, contactId: contactId, user: userInfo},  function(error, result){    if (error) {      console.log('deleteContact returned an error: ' + error);    }    else if (result) {      console.log('SUCCESS');    }  });
+```
