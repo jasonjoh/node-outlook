@@ -198,7 +198,7 @@ module.exports = {
    * var token = 'eyJ0eXAiOiJKV1Q...';
    * 
    * var newMsg = {
-   *   Subject: 'Did you see last night's game?',
+   *   Subject: 'Did you see last night\'s game?',
    *   Importance: 'Low',
    *   Body: {
    *     ContentType: 'HTML',
@@ -436,7 +436,7 @@ module.exports = {
    * var token = 'eyJ0eXAiOiJKV1Q...';
    * 
    * var newMsg = {
-   *   Subject: 'Did you see last night's game?',
+   *   Subject: 'Did you see last night\'s game?',
    *   Importance: 'Low',
    *   Body: {
    *     ContentType: 'HTML',
