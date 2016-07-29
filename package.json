@@ -1,11 +1,11 @@
 {
   "name": "node-outlook",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "A package for calling the Outlook APIs from Node.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "docs": "jsdoc2md version-2.js mail-api.js calendar-api.js contacts-api.js > ./reference/node-outlook.md"
+    "builddocs": "jsdoc2md version-2.js mail-api.js calendar-api.js contacts-api.js > ./reference/node-outlook.md"
   },
   "keywords": [
     "office365",

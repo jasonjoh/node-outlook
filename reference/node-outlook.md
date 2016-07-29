@@ -16,6 +16,7 @@
 
 * [base](#module_base)
     * [.makeApiCall(parameters, [callback])](#module_base.makeApiCall)
+    * [.getUser(parameters, [callback])](#module_base.getUser)
     * [.setTraceFunc(traceFunc)](#module_base.setTraceFunc)
     * [.setFiddlerEnabled(enabled)](#module_base.setFiddlerEnabled)
     * [.apiEndpoint()](#module_base.apiEndpoint) ⇒ <code>string</code>
@@ -44,6 +45,25 @@ Used to do the actual send of a REST request to the REST endpoint.
 | [parameters.headers] | <code>object</code> | A JSON-serializable object representing custom headers to send with the request. |
 | [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
 
+<a name="module_base.getUser"></a>
+### base.getUser(parameters, [callback])
+Used to get information about a user.
+
+**Kind**: static method of <code>[base](#module_base)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
+| parameters.token | <code>string</code> | The access token. |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
+| [parameters.odataParams] | <code>object</code> | An object containing key/value pairs representing OData query parameters. See [Use OData query parameters](https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters) for details. |
+| [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
+
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// Set up oData parametersvar queryParams = {  '$select': 'DisplayName, EmailAddress',};outlook.base.getUser({token: token, odataParams: queryParams},  function(error, result) {    if (error) {      console.log('getUser returned an error: ' + error);    }    else if (result) {      console.log('User name:', result.DisplayName);      console.log('User email:', result.EmailAddress);    }  });
+```
 <a name="module_base.setTraceFunc"></a>
 ### base.setTraceFunc(traceFunc)
 Used to provide a tracing function.
@@ -120,6 +140,7 @@ Sets the default preferred time zone.
     * [.deleteMessage(parameters, [callback])](#module_mail.deleteMessage)
     * [.sendNewMessage(parameters, [callback])](#module_mail.sendNewMessage)
     * [.sendDraftMessage(parameters, [callback])](#module_mail.sendDraftMessage)
+    * [.syncMessages(parameters, [callback])](#module_mail.syncMessages)
 
 <a name="module_mail.getMessages"></a>
 ### mail.getMessages(parameters, [callback])
@@ -266,6 +287,30 @@ Sends a draft message.
 **Example**  
 ```js
 var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the message to send. This could be // from a previous call to getMessagesvar msgId = 'AAMkADVhYTYwNzk...';// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.sendDraftMessage({token: token, messageId: msgId, user: userInfo},  function(error, result){    if (error) {      console.log('sendDraftMessage returned an error: ' + error);    }    else if (result) {      console.log('SUCCESS');    }  });
+```
+<a name="module_mail.syncMessages"></a>
+### mail.syncMessages(parameters, [callback])
+Syncs messages in a folder.
+
+**Kind**: static method of <code>[mail](#module_mail)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
+| parameters.token | <code>string</code> | The access token. |
+| [parameters.pageSize] | <code>Number</code> | The maximum number of results to return in each call. Defaults to 50. |
+| [parameters.skipToken] | <code>string</code> | The value to pass in the `skipToken` query parameter in the API call. |
+| [parameters.deltaToken] | <code>string</code> | The value to pass in the `deltaToken` query parameter in the API call. |
+| [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
+| [parameters.user.email] | <code>string</code> | The SMTP address of the user. If absent, the `/Me` segment is used in the API URL. |
+| [parameters.user.timezone] | <code>string</code> | The timezone of the user. |
+| [parameters.folderId] | <code>string</code> | The folder id. If absent, the API calls the `/User/Messages` endpoint. Valid values of this parameter are: - The `Id` property of a `MailFolder` entity - `Inbox` - `Drafts` - `SentItems` - `DeletedItems` |
+| [parameters.odataParams] | <code>object</code> | An object containing key/value pairs representing OData query parameters. See [Use OData query parameters](https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters) for details. |
+| [callback] | <code>function</code> | A callback function that is called when the function completes. It should have the signature `function (error, result)`. |
+
+**Example**  
+```js
+var outlook = require('node-outlook');// Set the API endpoint to use the beta endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/beta');// This is the oAuth token var token = 'eyJ0eXAiOiJKV1Q...';// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.sendDraftMessage({token: token, messageId: msgId, user: userInfo},  function(error, result){    if (error) {      console.log('sendDraftMessage returned an error: ' + error);    }    else if (result) {      console.log('SUCCESS');    }  });
 ```
 <a name="module_calendar"></a>
 ## calendar
