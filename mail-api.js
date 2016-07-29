@@ -24,7 +24,6 @@ module.exports = {
    * - `DeletedItems`
    * 
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
-   * 
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
    * 
    * @example var outlook = require('node-outlook');
@@ -62,7 +61,7 @@ module.exports = {
    *     }
    *   });
    */
-  getMessages: function(parameters, callback){
+  getMessages: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
     var folderSpec = parameters.folderId === undefined ? '' : getFolderSegment() + parameters.folderId;
     
@@ -571,6 +570,101 @@ module.exports = {
       }
     });
   },
+  
+  /**
+   * Syncs messages in a folder.
+   * 
+   * @param parameters {object} An object containing all of the relevant parameters. Possible values:
+   * @param parameters.token {string} The access token.
+   * @param [parameters.pageSize] {Number} The maximum number of results to return in each call. Defaults to 50. 
+   * @param [parameters.skipToken] {string} The value to pass in the `skipToken` query parameter in the API call.
+   * @param [parameters.deltaToken] {string} The value to pass in the `deltaToken` query parameter in the API call.
+   * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
+   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
+   * @param [parameters.user.timezone] {string} The timezone of the user.
+   * @param [parameters.folderId] {string} The folder id. If absent, the API calls the `/User/Messages` endpoint. Valid values of this parameter are:
+   * 
+   * - The `Id` property of a `MailFolder` entity
+   * - `Inbox`
+   * - `Drafts`
+   * - `SentItems`
+   * - `DeletedItems`
+   * 
+   * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
+   * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   * 
+   * @example var outlook = require('node-outlook');
+   * 
+   * // Set the API endpoint to use the beta endpoint
+   * outlook.base.setApiEndpoint('https://outlook.office.com/api/beta');
+   * 
+   * // This is the oAuth token 
+   * var token = 'eyJ0eXAiOiJKV1Q...';
+   * 
+   * // Pass the user's email address
+   * var userInfo = {
+   *   email: 'sarad@contoso.com'
+   * };
+   * 
+   * outlook.mail.sendDraftMessage({token: token, messageId: msgId, user: userInfo},
+   *   function(error, result){
+   *     if (error) {
+   *       console.log('sendDraftMessage returned an error: ' + error);
+   *     }
+   *     else if (result) {
+   *       console.log('SUCCESS');
+   *     }
+   *   });
+   */
+  
+  syncMessages: function(parameters, callback) {
+    var userSpec = utilities.getUserSegment(parameters);
+    var folderSpec = parameters.folderId === undefined ? '' : getFolderSegment() + parameters.folderId;
+    
+    var requestUrl = base.apiEndpoint() + userSpec + folderSpec + '/Messages';
+    
+    var query = parameters.odataParams || {};
+    if (parameters.skipToken) {
+      query['$skiptoken'] = parameters.skipToken;
+    }
+    
+    if (parameters.deltaToken) {
+      query['$deltatoken'] = parameters.deltaToken;
+    }
+    
+    var headers = {
+      Prefer: [
+        'odata.track-changes',
+        'odata.maxpagesize=' + (parameters.pageSize === undefined ? '50' : parameters.pageSize.toString())
+      ]
+    };
+    
+    var apiOptions = {
+      url: requestUrl,
+      token: parameters.token,
+      user: parameters.user,
+      query: query,
+      headers: headers
+    };
+    
+    base.makeApiCall(apiOptions, function(error, response) {
+      if (error) {
+        if (typeof callback === 'function') {
+          callback(error, response);
+        }
+      }
+      else if (response.statusCode !== 200) {
+        if (typeof callback === 'function') {
+          callback('REST request returned ' + response.statusCode + '; body: ' + JSON.stringify(response.body), response);
+        }
+      }
+      else {
+        if (typeof callback === 'function') {
+          callback(null, response.body);
+        }
+      }
+    });
+  }
 };
 
 /**
