@@ -5,9 +5,9 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 var currentDirectory = path.dirname(fs.realpathSync(__filename));
 
-exchangefile = fs.readFileSync(path.join(currentDirectory, './exchange-lib/exchange.js'), 'utf8');
+var exchangefile = fs.readFileSync(path.join(currentDirectory, './exchange-lib/exchange.js'), 'utf8');
 eval(exchangefile);
-utilityfile = fs.readFileSync(path.join(currentDirectory, './exchange-lib/utility.js'), 'utf8');
+var utilityfile = fs.readFileSync(path.join(currentDirectory, './exchange-lib/utility.js'), 'utf8');
 eval(utilityfile);
 
 exports.Microsoft = Microsoft;
