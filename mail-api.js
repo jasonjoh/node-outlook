@@ -605,16 +605,40 @@ module.exports = {
    * var userInfo = {
    *   email: 'sarad@contoso.com'
    * };
+   *
+   * var syncMsgParams = {
+   *   '$select': 'Subject,ReceivedDateTime,From,BodyPreview,IsRead',
+   *   '$orderby': 'ReceivedDateTime desc'
+   * };
+   *
+   * var apiOptions = {
+   *   token: token,
+   *   folderId: 'Inbox',
+   *   odataParams: syncMsgParams,
+   *   user: userinfo,
+   *   pageSize: 20
+   * };
+   *
+   * outlook.mail.syncMessages(apiOptions, function(error, messages) {
+   *   if (error) {
+   *     console.log('syncMessages returned an error:', error);
+   *   } else {
+   *     // Do something with the messages.value array
+   *     // Then get the @odata.deltaLink
+   *     var delta = messages['@odata.deltaLink'];
    * 
-   * outlook.mail.sendDraftMessage({token: token, messageId: msgId, user: userInfo},
-   *   function(error, result){
-   *     if (error) {
-   *       console.log('sendDraftMessage returned an error: ' + error);
-   *     }
-   *     else if (result) {
-   *       console.log('SUCCESS');
-   *     }
-   *   });
+   *     // Handle deltaLink value appropriately:
+   *     // In general, if the deltaLink has a $skiptoken, that means there are more
+   *     // "pages" in the sync results, you should call syncMessages again, passing
+   *     // the $skiptoken value in the apiOptions.skipToken. If on the other hand,
+   *     // the deltaLink has a $deltatoken, that means the sync is complete, and you should
+   *     // store the $deltatoken value for future syncs.
+   *     //
+   *     // The one exception to this rule is on the intial sync (when you call with no skip or delta tokens).
+   *     // In this case you always get a $deltatoken back, even if there are more results. In this case, you should
+   *     // immediately call syncMessages again, passing the $deltatoken value in apiOptions.deltaToken.
+   *   }
+   * }
    */
   
   syncMessages: function(parameters, callback) {
