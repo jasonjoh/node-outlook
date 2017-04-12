@@ -126,13 +126,13 @@ module.exports = {
    * 
    * var apiOptions = {
    *   token: token,
-   *   calendarId: 'Primary', // Not mandatory, the Primary calendar will be used by default, but you can specify another calendar Id
+   *   calendarId: 'calendar_id', // If none specified, the Primary calendar will be used
    *   user: userinfo,
    *   startDateTime: startDateTime,
    *   endDateTime: endDateTime
    * };
    *
-   * outlook.mail.syncEvents(apiOptions, function(error, events) {
+   * outlook.calendar.syncEvents(apiOptions, function(error, events) {
    *   if (error) {
    *     console.log('syncEvents returned an error:', error);
    *   } else {
@@ -156,7 +156,7 @@ module.exports = {
   
   syncEvents: function(parameters, callback) {
       var userSpec = utilities.getUserSegment(parameters);
-      var calendarSpec = parameters.calendarId === undefined ? '' : "/calendars('" + parameters.calendarId + "')"
+      var calendarSpec = parameters.calendarId === undefined ? '' : "/calendars/" + parameters.calendarId;
 
       var requestUrl = base.apiEndpoint() + userSpec + '/calendarview?startdatetime=' + parameters.startDatetime + '&enddatetime=' + parameters.endDatetime;
 
