@@ -99,15 +99,12 @@ module.exports = {
 
   getMessageAttachmentId: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
-
     var requestUrl = base.apiEndpoint() + userSpec + '/messages/' + parameters.messageId + '/attachments';
-
     var apiOptions = {
       url: requestUrl,
       token: parameters.token,
       user: parameters.user
     };
-
 
     base.makeApiCall(apiOptions, function(error, response) {
       if (error) {
@@ -126,7 +123,7 @@ module.exports = {
     });
   },
 
-  
+
   /**
    * Used to get a specific message.
    * 
