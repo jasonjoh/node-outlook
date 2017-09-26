@@ -95,34 +95,6 @@ module.exports = {
       }
     });
   },
-  
-
-  getMessageAttachmentId: function(parameters, callback) {
-    var userSpec = utilities.getUserSegment(parameters);
-    var requestUrl = base.apiEndpoint() + userSpec + '/messages/' + parameters.messageId + '/attachments';
-    var apiOptions = {
-      url: requestUrl,
-      token: parameters.token,
-      user: parameters.user
-    };
-
-    base.makeApiCall(apiOptions, function(error, response) {
-      if (error) {
-        if (typeof callback === 'function') {
-          callback(error, response);
-        }
-      } else if (response.statusCode !== 200) {
-        if (typeof callback === 'function') {
-          callback('REST request returned ' + response.statusCode + '; body: ' + JSON.stringify(response.body), response);
-        }
-      } else {
-        if (typeof callback === 'function') {
-          callback(null, response.body);
-        }
-      }
-    });
-  },
-
 
   /**
    * Used to get a specific message.
@@ -197,6 +169,75 @@ module.exports = {
         }
       }
       else {
+        if (typeof callback === 'function') {
+          callback(null, response.body);
+        }
+      }
+    });
+  },
+  
+  /**
+   * Get all attachments from a message
+   * 
+   * @param parameters {object} An object containing all of the relevant parameters. Possible values:
+   * @param parameters.token {string} The access token.
+   * @param parameters.messageId {string} The Id of the message.
+   * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
+   * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
+   * @param [parameters.user.timezone] {string} The timezone of the user.
+   * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
+   * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
+   * 
+   * @example var outlook = require('node-outlook');
+   * 
+   * // Set the API endpoint to use the v2.0 endpoint
+   * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
+   * 
+   * // This is the oAuth token 
+   * var token = 'eyJ0eXAiOiJKV1Q...';
+   * 
+   * // The Id property of the message to retrieve. This could be 
+   * // from a previous call to getMessages
+   * var msgId = 'AAMkADVhYTYwNzk...';
+   * 
+   * // Pass the user's email address
+   * var userInfo = {
+   *   email: 'sarad@contoso.com'
+   * };
+   * 
+   * outlook.mail.getMessageAttachments({token: token, messageId: msgId, user: userInfo},
+   *   function(error, result){
+   *     if (error) {
+   *       console.log('getMessageAttachments returned an error: ' + error);
+   *     }
+   *     else if (result) {
+   *       console.log(JSON.stringify(result, null, 2));
+   *     }
+   *   });
+   */
+  getMessageAttachments: function(parameters, callback) {
+    var userSpec = utilities.getUserSegment(parameters);
+    var requestUrl = base.apiEndpoint() + userSpec + '/messages/' + parameters.messageId + '/attachments';
+    var apiOptions = {
+      url: requestUrl,
+      token: parameters.token,
+      user: parameters.user
+    };
+
+    if (parameters.odataParams !== undefined) {
+      apiOptions['query'] = parameters.odataParams;
+    }
+
+    base.makeApiCall(apiOptions, function(error, response) {
+      if (error) {
+        if (typeof callback === 'function') {
+          callback(error, response);
+        }
+      } else if (response.statusCode !== 200) {
+        if (typeof callback === 'function') {
+          callback('REST request returned ' + response.statusCode + '; body: ' + JSON.stringify(response.body), response);
+        }
+      } else {
         if (typeof callback === 'function') {
           callback(null, response.body);
         }
