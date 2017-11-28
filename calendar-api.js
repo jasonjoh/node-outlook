@@ -156,9 +156,9 @@ module.exports = {
   
   syncEvents: function(parameters, callback) {
       var userSpec = utilities.getUserSegment(parameters);
-      var calendarSpec = parameters.calendarId === undefined ? '' : "/calendars/" + parameters.calendarId;
+      var calendarSpec = parameters.calendarId === undefined ? '' : "/Calendars/" + parameters.calendarId;
 
-      var requestUrl = base.apiEndpoint() + userSpec + '/calendarview?startdatetime=' + parameters.startDatetime + '&enddatetime=' + parameters.endDatetime;
+      var requestUrl = base.apiEndpoint() + userSpec + calendarSpec + '/calendarview?startdatetime=' + parameters.startDatetime + '&enddatetime=' + parameters.endDatetime;
 
       var query = parameters.odataParams || {};
       if (parameters.skipToken) {
