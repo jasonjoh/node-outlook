@@ -172,7 +172,7 @@ module.exports = {
       var headers = {
           Prefer: [
               'odata.track-changes',
-              'odata.maxpagesize' + (parameters.pageSize === undefined ? '50' : parameters.pageSize.toString())
+              'odata.maxpagesize=' + (parameters.pageSize === undefined ? '50' : parameters.pageSize.toString())
           ]
       };
 
