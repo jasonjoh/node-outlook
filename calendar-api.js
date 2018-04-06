@@ -156,7 +156,7 @@ module.exports = {
   
   syncEvents: function(parameters, callback) {
       var userSpec = utilities.getUserSegment(parameters);
-      var calendarSpec = parameters.calendarId === undefined ? '' : "/Calendars/" + parameters.calendarId;
+      var calendarSpec = parameters.calendarId === undefined ? '' : "/calendars/" + parameters.calendarId;
 
       var requestUrl = base.apiEndpoint() + userSpec + calendarSpec + '/calendarview?startdatetime=' + parameters.startDatetime + '&enddatetime=' + parameters.endDatetime;
 
