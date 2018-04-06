@@ -65,29 +65,7 @@ Used to get information about a user.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// Set up oData parameters
-var queryParams = {
-  '$select': 'DisplayName, EmailAddress',
-};
-
-outlook.base.getUser({token: token, odataParams: queryParams},
-  function(error, result) {
-    if (error) {
-      console.log('getUser returned an error: ' + error);
-    }
-    else if (result) {
-      console.log('User name:', result.DisplayName);
-      console.log('User email:', result.EmailAddress);
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// Set up oData parametersvar queryParams = {  '$select': 'DisplayName, EmailAddress',};outlook.base.getUser({token: token, odataParams: queryParams},  function(error, result) {    if (error) {      console.log('getUser returned an error: ' + error);    }    else if (result) {      console.log('User name:', result.DisplayName);      console.log('User email:', result.EmailAddress);    }  });
 ```
 <a name="module_base.setTraceFunc"></a>
 
@@ -199,40 +177,7 @@ Used to get messages from a folder.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// Set up oData parameters
-var queryParams = {
-  '$select': 'Subject,ReceivedDateTime,From',
-  '$orderby': 'ReceivedDateTime desc',
-  '$top': 20
-};
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.mail.getMessages({token: token, folderId: 'Inbox', odataParams: queryParams, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('getMessages returned an error: ' + error);
-    }
-    else if (result) {
-      console.log('getMessages returned ' + result.value.length + ' messages.');
-      result.value.forEach(function(message) {
-        console.log('  Subject:', message.Subject);
-        console.log('  Received:', message.ReceivedDateTime.toString());
-        console.log('  From:', message.From ? message.From.EmailAddress.Name : 'EMPTY');
-      });
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// Set up oData parametersvar queryParams = {  '$select': 'Subject,ReceivedDateTime,From',  '$orderby': 'ReceivedDateTime desc',  '$top': 20};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.getMessages({token: token, folderId: 'Inbox', odataParams: queryParams, user: userInfo},  function(error, result){    if (error) {      console.log('getMessages returned an error: ' + error);    }    else if (result) {      console.log('getMessages returned ' + result.value.length + ' messages.');      result.value.forEach(function(message) {        console.log('  Subject:', message.Subject);        console.log('  Received:', message.ReceivedDateTime.toString());        console.log('  From:', message.From ? message.From.EmailAddress.Name : 'EMPTY');      });    }  });
 ```
 <a name="module_mail.getMessage"></a>
 
@@ -254,39 +199,7 @@ Used to get a specific message.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// The Id property of the message to retrieve. This could be 
-// from a previous call to getMessages
-var msgId = 'AAMkADVhYTYwNzk...';
-
-// Set up oData parameters
-var queryParams = {
-  '$select': 'Subject,ReceivedDateTime,From'
-};
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.mail.getMessage({token: token, messageId: msgId, odataParams: queryParams, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('getMessage returned an error: ' + error);
-    }
-    else if (result) {
-      console.log('  Subject:', result.Subject);
-      console.log('  Received:', result.ReceivedDateTime.toString());
-      console.log('  From:', result.From ? result.From.EmailAddress.Name : 'EMPTY');
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the message to retrieve. This could be// from a previous call to getMessagesvar msgId = 'AAMkADVhYTYwNzk...';// Set up oData parametersvar queryParams = {  '$select': 'Subject,ReceivedDateTime,From'};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.getMessage({token: token, messageId: msgId, odataParams: queryParams, user: userInfo},  function(error, result){    if (error) {      console.log('getMessage returned an error: ' + error);    }    else if (result) {      console.log('  Subject:', result.Subject);      console.log('  Received:', result.ReceivedDateTime.toString());      console.log('  From:', result.From ? result.From.EmailAddress.Name : 'EMPTY');    }  });
 ```
 <a name="module_mail.getMessageAttachments"></a>
 
@@ -308,32 +221,7 @@ Get all attachments from a message
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// The Id property of the message to retrieve. This could be 
-// from a previous call to getMessages
-var msgId = 'AAMkADVhYTYwNzk...';
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.mail.getMessageAttachments({token: token, messageId: msgId, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('getMessageAttachments returned an error: ' + error);
-    }
-    else if (result) {
-      console.log(JSON.stringify(result, null, 2));
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the message to retrieve. This could be// from a previous call to getMessagesvar msgId = 'AAMkADVhYTYwNzk...';// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.getMessageAttachments({token: token, messageId: msgId, user: userInfo},  function(error, result){    if (error) {      console.log('getMessageAttachments returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
 ```
 <a name="module_mail.createMessage"></a>
 
@@ -355,44 +243,7 @@ Create a new message
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-var newMsg = {
-  Subject: 'Did you see last night\'s game?',
-  Importance: 'Low',
-  Body: {
-    ContentType: 'HTML',
-    Content: 'They were <b>awesome</b>!'
-  },
-  ToRecipients: [
-    {
-      EmailAddress: {
-        Address: 'azizh@contoso.com'
-      }
-    }
-  ]
-};
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.mail.createMessage({token: token, message: newMsg, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('createMessage returned an error: ' + error);
-    }
-    else if (result) {
-      console.log(JSON.stringify(result, null, 2));
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';var newMsg = {  Subject: 'Did you see last night\'s game?',  Importance: 'Low',  Body: {    ContentType: 'HTML',    Content: 'They were <b>awesome</b>!'  },  ToRecipients: [    {      EmailAddress: {        Address: 'azizh@contoso.com'      }    }  ]};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.createMessage({token: token, message: newMsg, user: userInfo},  function(error, result){    if (error) {      console.log('createMessage returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
 ```
 <a name="module_mail.updateMessage"></a>
 
@@ -415,37 +266,7 @@ Update a specific message.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// The Id property of the message to update. This could be 
-// from a previous call to getMessages
-var msgId = 'AAMkADVhYTYwNzk...';
-
-// Mark the message unread
-var update = {
-  IsRead: false,
-};
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.mail.updateMessage({token: token, messageId: msgId, update: update, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('updateMessage returned an error: ' + error);
-    }
-    else if (result) {
-      console.log(JSON.stringify(result, null, 2));
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the message to update. This could be// from a previous call to getMessagesvar msgId = 'AAMkADVhYTYwNzk...';// Mark the message unreadvar update = {  IsRead: false,};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.updateMessage({token: token, messageId: msgId, update: update, user: userInfo},  function(error, result){    if (error) {      console.log('updateMessage returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
 ```
 <a name="module_mail.deleteMessage"></a>
 
@@ -466,32 +287,7 @@ Delete a specific message.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// The Id property of the message to delete. This could be 
-// from a previous call to getMessages
-var msgId = 'AAMkADVhYTYwNzk...';
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.mail.deleteMessage({token: token, messageId: msgId, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('deleteMessage returned an error: ' + error);
-    }
-    else if (result) {
-      console.log('SUCCESS');
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the message to delete. This could be// from a previous call to getMessagesvar msgId = 'AAMkADVhYTYwNzk...';// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.deleteMessage({token: token, messageId: msgId, user: userInfo},  function(error, result){    if (error) {      console.log('deleteMessage returned an error: ' + error);    }    else if (result) {      console.log('SUCCESS');    }  });
 ```
 <a name="module_mail.sendNewMessage"></a>
 
@@ -513,44 +309,7 @@ Sends a new message
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-var newMsg = {
-  Subject: 'Did you see last night\'s game?',
-  Importance: 'Low',
-  Body: {
-    ContentType: 'HTML',
-    Content: 'They were <b>awesome</b>!'
-  },
-  ToRecipients: [
-    {
-      EmailAddress: {
-        Address: 'azizh@contoso.com'
-      }
-    }
-  ]
-};
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.mail.sendNewMessage({token: token, message: newMsg, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('sendNewMessage returned an error: ' + error);
-    }
-    else if (result) {
-      console.log(JSON.stringify(result, null, 2));
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';var newMsg = {  Subject: 'Did you see last night\'s game?',  Importance: 'Low',  Body: {    ContentType: 'HTML',    Content: 'They were <b>awesome</b>!'  },  ToRecipients: [    {      EmailAddress: {        Address: 'azizh@contoso.com'      }    }  ]};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.sendNewMessage({token: token, message: newMsg, user: userInfo},  function(error, result){    if (error) {      console.log('sendNewMessage returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
 ```
 <a name="module_mail.sendDraftMessage"></a>
 
@@ -571,32 +330,7 @@ Sends a draft message.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// The Id property of the message to send. This could be 
-// from a previous call to getMessages
-var msgId = 'AAMkADVhYTYwNzk...';
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.mail.sendDraftMessage({token: token, messageId: msgId, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('sendDraftMessage returned an error: ' + error);
-    }
-    else if (result) {
-      console.log('SUCCESS');
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the message to send. This could be// from a previous call to getMessagesvar msgId = 'AAMkADVhYTYwNzk...';// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.mail.sendDraftMessage({token: token, messageId: msgId, user: userInfo},  function(error, result){    if (error) {      console.log('sendDraftMessage returned an error: ' + error);    }    else if (result) {      console.log('SUCCESS');    }  });
 ```
 <a name="module_mail.syncMessages"></a>
 
@@ -621,52 +355,7 @@ Syncs messages in a folder.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the beta endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/beta');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-var syncMsgParams = {
-  '$select': 'Subject,ReceivedDateTime,From,BodyPreview,IsRead',
-  '$orderby': 'ReceivedDateTime desc'
-};
-
-var apiOptions = {
-  token: token,
-  folderId: 'Inbox',
-  odataParams: syncMsgParams,
-  user: userinfo,
-  pageSize: 20
-};
-
-outlook.mail.syncMessages(apiOptions, function(error, messages) {
-  if (error) {
-    console.log('syncMessages returned an error:', error);
-  } else {
-    // Do something with the messages.value array
-    // Then get the @odata.deltaLink
-    var delta = messages['@odata.deltaLink'];
-
-    // Handle deltaLink value appropriately:
-    // In general, if the deltaLink has a $skiptoken, that means there are more
-    // "pages" in the sync results, you should call syncMessages again, passing
-    // the $skiptoken value in the apiOptions.skipToken. If on the other hand,
-    // the deltaLink has a $deltatoken, that means the sync is complete, and you should
-    // store the $deltatoken value for future syncs.
-    //
-    // The one exception to this rule is on the intial sync (when you call with no skip or delta tokens).
-    // In this case you always get a $deltatoken back, even if there are more results. In this case, you should
-    // immediately call syncMessages again, passing the $deltatoken value in apiOptions.deltaToken.
-  }
-}
+var outlook = require('node-outlook');// Set the API endpoint to use the beta endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/beta');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};var syncMsgParams = {  '$select': 'Subject,ReceivedDateTime,From,BodyPreview,IsRead',  '$orderby': 'ReceivedDateTime desc'};var apiOptions = {  token: token,  folderId: 'Inbox',  odataParams: syncMsgParams,  user: userinfo,  pageSize: 20};outlook.mail.syncMessages(apiOptions, function(error, messages) {  if (error) {    console.log('syncMessages returned an error:', error);  } else {    // Do something with the messages.value array    // Then get the @odata.deltaLink    var delta = messages['@odata.deltaLink'];    // Handle deltaLink value appropriately:    // In general, if the deltaLink has a $skiptoken, that means there are more    // "pages" in the sync results, you should call syncMessages again, passing    // the $skiptoken value in the apiOptions.skipToken. If on the other hand,    // the deltaLink has a $deltatoken, that means the sync is complete, and you should    // store the $deltatoken value for future syncs.    //    // The one exception to this rule is on the initial sync (when you call with no skip or delta tokens).    // In this case you always get a $deltatoken back, even if there are more results. In this case, you should    // immediately call syncMessages again, passing the $deltatoken value in apiOptions.deltaToken.  }}
 ```
 <a name="module_mail.replyToMessage"></a>
 
@@ -688,27 +377,7 @@ Reply to sender
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-var comment = "Sounds great! See you tomorrow.";
-var messageId = "AAMkAGE0Mz8DmAAA=";
-
-
-outlook.mail.replyToMessage({token: token, comment: comment, messageId: messageId},
-  function(error, result){
-    if (error) {
-      console.log('replyToMessage returned an error: ' + error);
-    }
-    else if (result) {
-      console.log(JSON.stringify(result, null, 2));
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';var comment = "Sounds great! See you tomorrow.";var messageId = "AAMkAGE0Mz8DmAAA=";outlook.mail.replyToMessage({token: token, comment: comment, messageId: messageId},  function(error, result){    if (error) {      console.log('replyToMessage returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
 ```
 <a name="module_mail.replyToAllMessage"></a>
 
@@ -730,27 +399,7 @@ Reply to all
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-var comment = "Sounds great! See you tomorrow.";
-var messageId = "AAMkAGE0Mz8DmAAA=";
-
-
-outlook.mail.replyToAllMessage({token: token, comment: comment, messageId: messageId},
-  function(error, result){
-    if (error) {
-      console.log('replyToMessage returned an error: ' + error);
-    }
-    else if (result) {
-      console.log(JSON.stringify(result, null, 2));
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';var comment = "Sounds great! See you tomorrow.";var messageId = "AAMkAGE0Mz8DmAAA=";outlook.mail.replyToAllMessage({token: token, comment: comment, messageId: messageId},  function(error, result){    if (error) {      console.log('replyToMessage returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
 ```
 <a name="module_calendar"></a>
 
@@ -784,40 +433,7 @@ Used to get events from a calendar.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// Set up oData parameters
-var queryParams = {
-  '$select': 'Subject,Start,End',
-  '$orderby': 'Start/DateTime desc',
-  '$top': 20
-};
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.calendar.getEvents({token: token, folderId: 'Inbox', odataParams: queryParams, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('getEvents returned an error: ' + error);
-    }
-    else if (result) {
-      console.log('getEvents returned ' + result.value.length + ' events.');
-      result.value.forEach(function(event) {
-        console.log('  Subject:', event.Subject);
-        console.log('  Start:', event.Start.DateTime.toString());
-        console.log('  End:', event.End.DateTime.toString());
-      });
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// Set up oData parametersvar queryParams = {  '$select': 'Subject,Start,End',  '$orderby': 'Start/DateTime desc',  '$top': 20};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.calendar.getEvents({token: token, folderId: 'Inbox', odataParams: queryParams, user: userInfo},  function(error, result){    if (error) {      console.log('getEvents returned an error: ' + error);    }    else if (result) {      console.log('getEvents returned ' + result.value.length + ' events.');      result.value.forEach(function(event) {        console.log('  Subject:', event.Subject);        console.log('  Start:', event.Start.DateTime.toString());        console.log('  End:', event.End.DateTime.toString());      });    }  });
 ```
 <a name="module_calendar.syncEvents"></a>
 
@@ -830,6 +446,8 @@ Syncs events of a calendar.
 | --- | --- | --- |
 | parameters | <code>object</code> | An object containing all of the relevant parameters. Possible values: |
 | parameters.token | <code>string</code> | The access token. |
+| parameters.startDateTime | <code>string</code> | The start time and date for the calendar view in ISO 8601 format without a timezone designator. Time zone is assumed to be UTC unless the `Prefer: outlook.timezone` header is sent in the request. |
+| parameters.endDateTime | <code>string</code> | The end time and date for the calendar view in ISO 8601 format without a timezone designator. Time zone is assumed to be UTC unless the `Prefer: outlook.timezone` header is sent in the request. |
 | [parameters.skipToken] | <code>string</code> | The value to pass in the `skipToken` query parameter in the API call. |
 | [parameters.deltaToken] | <code>string</code> | The value to pass in the `deltaToken` query parameter in the API call. |
 | [parameters.useMe] | <code>boolean</code> | If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case). |
@@ -840,51 +458,7 @@ Syncs events of a calendar.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the 2.0 version of the api
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-// You have to specify a time window
-var startDateTime = "2017-01-01";
-var endDateTime = "2017-12-31";
-
-var apiOptions = {
-  token: token,
-  calendarId: 'calendar_id', // If none specified, the Primary calendar will be used
-  user: userinfo,
-  startDateTime: startDateTime,
-  endDateTime: endDateTime
-};
-
-outlook.calendar.syncEvents(apiOptions, function(error, events) {
-  if (error) {
-    console.log('syncEvents returned an error:', error);
-  } else {
-    // Do something with the events.value array
-    // Then get the @odata.deltaLink
-    var delta = messages['@odata.deltaLink'];
-
-    // Handle deltaLink value appropriately:
-    // In general, if the deltaLink has a $skiptoken, that means there are more
-    // "pages" in the sync results, you should call syncEvents again, passing
-    // the $skiptoken value in the apiOptions.skipToken. If on the other hand,
-    // the deltaLink has a $deltatoken, that means the sync is complete, and you should
-    // store the $deltatoken value for future syncs.
-    //
-    // The one exception to this rule is on the intial sync (when you call with no skip or delta tokens).
-    // In this case you always get a $deltatoken back, even if there are more results. In this case, you should
-    // immediately call syncMessages again, passing the $deltatoken value in apiOptions.deltaToken.
-  }
-}
+var outlook = require('node-outlook');// Set the API endpoint to use the 2.0 version of the apioutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};// You have to specify a time windowvar startDateTime = "2017-01-01";var endDateTime = "2017-12-31";var apiOptions = {  token: token,  calendarId: 'calendar_id', // If none specified, the Primary calendar will be used  user: userinfo,  startDateTime: startDateTime,  endDateTime: endDateTime};outlook.calendar.syncEvents(apiOptions, function(error, events) {  if (error) {    console.log('syncEvents returned an error:', error);  } else {    // Do something with the events.value array    // Then get the @odata.deltaLink    var delta = messages['@odata.deltaLink'];    // Handle deltaLink value appropriately:    // In general, if the deltaLink has a $skiptoken, that means there are more    // "pages" in the sync results, you should call syncEvents again, passing    // the $skiptoken value in the apiOptions.skipToken. If on the other hand,    // the deltaLink has a $deltatoken, that means the sync is complete, and you should    // store the $deltatoken value for future syncs.    //    // The one exception to this rule is on the initial sync (when you call with no skip or delta tokens).    // In this case you always get a $deltatoken back, even if there are more results. In this case, you should    // immediately call syncMessages again, passing the $deltatoken value in apiOptions.deltaToken.  }}
 ```
 <a name="module_calendar.getEvent"></a>
 
@@ -906,39 +480,7 @@ Used to get a specific event.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// The Id property of the event to retrieve. This could be 
-// from a previous call to getEvents
-var eventId = 'AAMkADVhYTYwNzk...';
-
-// Set up oData parameters
-var queryParams = {
-  '$select': 'Subject,Start,End'
-};
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.calendar.getEvent({token: token, eventId: eventId, odataParams: queryParams, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('getEvent returned an error: ' + error);
-    }
-    else if (result) {
-      console.log('  Subject:', result.Subject);
-      console.log('  Start:', result.Start.DateTime.toString());
-      console.log('  End:', result.End.DateTime.toString());
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the event to retrieve. This could be// from a previous call to getEventsvar eventId = 'AAMkADVhYTYwNzk...';// Set up oData parametersvar queryParams = {  '$select': 'Subject,Start,End'};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.calendar.getEvent({token: token, eventId: eventId, odataParams: queryParams, user: userInfo},  function(error, result){    if (error) {      console.log('getEvent returned an error: ' + error);    }    else if (result) {      console.log('  Subject:', result.Subject);      console.log('  Start:', result.Start.DateTime.toString());      console.log('  End:', result.End.DateTime.toString());    }  });
 ```
 <a name="module_calendar.createEvent"></a>
 
@@ -960,53 +502,7 @@ Create a new event
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-var newEvent = {
-  "Subject": "Discuss the Calendar REST API",
-  "Body": {
-    "ContentType": "HTML",
-    "Content": "I think it will meet our requirements!"
-  },
-  "Start": {
-    "DateTime": "2016-02-03T18:00:00",
-    "TimeZone": "Eastern Standard Time"
-  },
-  "End": {
-    "DateTime": "2016-02-03T19:00:00",
-    "TimeZone": "Eastern Standard Time"
-  },
-  "Attendees": [
-    {
-      "EmailAddress": {
-        "Address": "allieb@contoso.com",
-        "Name": "Allie Bellew"
-      },
-      "Type": "Required"
-    }
-  ]
-};
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.calendar.createEvent({token: token, event: newEvent, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('createEvent returned an error: ' + error);
-    }
-    else if (result) {
-      console.log(JSON.stringify(result, null, 2));
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';var newEvent = {  "Subject": "Discuss the Calendar REST API",  "Body": {    "ContentType": "HTML",    "Content": "I think it will meet our requirements!"  },  "Start": {    "DateTime": "2016-02-03T18:00:00",    "TimeZone": "Eastern Standard Time"  },  "End": {    "DateTime": "2016-02-03T19:00:00",    "TimeZone": "Eastern Standard Time"  },  "Attendees": [    {      "EmailAddress": {        "Address": "allieb@contoso.com",        "Name": "Allie Bellew"      },      "Type": "Required"    }  ]};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.calendar.createEvent({token: token, event: newEvent, user: userInfo},  function(error, result){    if (error) {      console.log('createEvent returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
 ```
 <a name="module_calendar.updateEvent"></a>
 
@@ -1029,39 +525,7 @@ Update a specific event.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// The Id property of the event to update. This could be 
-// from a previous call to getEvents
-var eventId = 'AAMkADVhYTYwNzk...';
-
-// Update the location
-var update = {
-  Location: {
-    DisplayName: 'Conference Room 2'
-  }
-};
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.calendar.updateEvent({token: token, eventId: eventId, update: update, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('updateEvent returned an error: ' + error);
-    }
-    else if (result) {
-      console.log(JSON.stringify(result, null, 2));
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the event to update. This could be// from a previous call to getEventsvar eventId = 'AAMkADVhYTYwNzk...';// Update the locationvar update = {  Location: {    DisplayName: 'Conference Room 2'  }};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.calendar.updateEvent({token: token, eventId: eventId, update: update, user: userInfo},  function(error, result){    if (error) {      console.log('updateEvent returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
 ```
 <a name="module_calendar.deleteEvent"></a>
 
@@ -1082,32 +546,7 @@ Delete a specific event.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// The Id property of the event to delete. This could be 
-// from a previous call to getEvents
-var eventId = 'AAMkADVhYTYwNzk...';
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.calendar.deleteEvent({token: token, eventId: eventId, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('deleteEvent returned an error: ' + error);
-    }
-    else if (result) {
-      console.log('SUCCESS');
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the event to delete. This could be// from a previous call to getEventsvar eventId = 'AAMkADVhYTYwNzk...';// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.calendar.deleteEvent({token: token, eventId: eventId, user: userInfo},  function(error, result){    if (error) {      console.log('deleteEvent returned an error: ' + error);    }    else if (result) {      console.log('SUCCESS');    }  });
 ```
 <a name="module_contacts"></a>
 
@@ -1140,40 +579,7 @@ Used to get contacts from a contact folder.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// Set up oData parameters
-var queryParams = {
-  '$select': 'GivenName,Surname,EmailAddresses',
-  '$orderby': 'CreatedDateTime desc',
-  '$top': 20
-};
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.contacts.getContacts({token: token, odataParams: queryParams, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('getContacts returned an error: ' + error);
-    }
-    else if (result) {
-      console.log('getContacts returned ' + result.value.length + ' contacts.');
-      result.value.forEach(function(contact) {
-        console.log('  GivenName:', contact.GivenName);
-        console.log('  Surname:', contact.Surname);
-        console.log('  Email Address:', contact.EmailAddresses[0] ? contact.EmailAddresses[0].Address : "NONE");
-      });
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// Set up oData parametersvar queryParams = {  '$select': 'GivenName,Surname,EmailAddresses',  '$orderby': 'CreatedDateTime desc',  '$top': 20};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.contacts.getContacts({token: token, odataParams: queryParams, user: userInfo},  function(error, result){    if (error) {      console.log('getContacts returned an error: ' + error);    }    else if (result) {      console.log('getContacts returned ' + result.value.length + ' contacts.');      result.value.forEach(function(contact) {        console.log('  GivenName:', contact.GivenName);        console.log('  Surname:', contact.Surname);        console.log('  Email Address:', contact.EmailAddresses[0] ? contact.EmailAddresses[0].Address : "NONE");      });    }  });
 ```
 <a name="module_contacts.getContact"></a>
 
@@ -1195,39 +601,7 @@ Used to get a specific contact.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// The Id property of the contact to retrieve. This could be 
-// from a previous call to getContacts
-var contactId = 'AAMkADVhYTYwNzk...';
-
-// Set up oData parameters
-var queryParams = {
-  '$select': 'GivenName,Surname,EmailAddresses'
-};
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.contacts.getContact({token: token, contactId: contactId, odataParams: queryParams, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('getContact returned an error: ' + error);
-    }
-    else if (result) {
-      console.log('  GivenName:', result.GivenName);
-      console.log('  Surname:', result.Surname);
-      console.log('  Email Address:', result.EmailAddresses[0] ? result.EmailAddresses[0].Address : "NONE");
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the contact to retrieve. This could be// from a previous call to getContactsvar contactId = 'AAMkADVhYTYwNzk...';// Set up oData parametersvar queryParams = {  '$select': 'GivenName,Surname,EmailAddresses'};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.contacts.getContact({token: token, contactId: contactId, odataParams: queryParams, user: userInfo},  function(error, result){    if (error) {      console.log('getContact returned an error: ' + error);    }    else if (result) {      console.log('  GivenName:', result.GivenName);      console.log('  Surname:', result.Surname);      console.log('  Email Address:', result.EmailAddresses[0] ? result.EmailAddresses[0].Address : "NONE");    }  });
 ```
 <a name="module_contacts.createContact"></a>
 
@@ -1249,42 +623,7 @@ Create a new contact
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-var newContact = {
-  "GivenName": "Pavel",
-  "Surname": "Bansky",
-  "EmailAddresses": [
-    {
-      "Address": "pavelb@contoso.com",
-      "Name": "Pavel Bansky"
-    }
-  ],
-  "BusinessPhones": [
-    "+1 732 555 0102"
-  ]
-};
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.contacts.createContact({token: token, contact: newContact, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('createContact returned an error: ' + error);
-    }
-    else if (result) {
-      console.log(JSON.stringify(result, null, 2));
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';var newContact = {  "GivenName": "Pavel",  "Surname": "Bansky",  "EmailAddresses": [    {      "Address": "pavelb@contoso.com",      "Name": "Pavel Bansky"    }  ],  "BusinessPhones": [    "+1 732 555 0102"  ]};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.contacts.createContact({token: token, contact: newContact, user: userInfo},  function(error, result){    if (error) {      console.log('createContact returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
 ```
 <a name="module_contacts.updateContact"></a>
 
@@ -1307,37 +646,7 @@ Update a specific contact.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// The Id property of the contact to update. This could be 
-// from a previous call to getContacts
-var contactId = 'AAMkADVhYTYwNzk...';
-
-// Change the mobile number
-var update = {
-  MobilePhone1: '425-555-1212',
-};
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.contacts.updateContact({token: token, contactId: contactId, update: update, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('updateContact returned an error: ' + error);
-    }
-    else if (result) {
-      console.log(JSON.stringify(result, null, 2));
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the contact to update. This could be// from a previous call to getContactsvar contactId = 'AAMkADVhYTYwNzk...';// Change the mobile numbervar update = {  MobilePhone1: '425-555-1212',};// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.contacts.updateContact({token: token, contactId: contactId, update: update, user: userInfo},  function(error, result){    if (error) {      console.log('updateContact returned an error: ' + error);    }    else if (result) {      console.log(JSON.stringify(result, null, 2));    }  });
 ```
 <a name="module_contacts.deleteContact"></a>
 
@@ -1358,30 +667,5 @@ Delete a specific contact.
 
 **Example**  
 ```js
-var outlook = require('node-outlook');
-
-// Set the API endpoint to use the v2.0 endpoint
-outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-
-// This is the oAuth token 
-var token = 'eyJ0eXAiOiJKV1Q...';
-
-// The Id property of the contact to delete. This could be 
-// from a previous call to getContacts
-var contactId = 'AAMkADVhYTYwNzk...';
-
-// Pass the user's email address
-var userInfo = {
-  email: 'sarad@contoso.com'
-};
-
-outlook.contacts.deleteContact({token: token, contactId: contactId, user: userInfo},
-  function(error, result){
-    if (error) {
-      console.log('deleteContact returned an error: ' + error);
-    }
-    else if (result) {
-      console.log('SUCCESS');
-    }
-  });
+var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 endpointoutlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');// This is the oAuth tokenvar token = 'eyJ0eXAiOiJKV1Q...';// The Id property of the contact to delete. This could be// from a previous call to getContactsvar contactId = 'AAMkADVhYTYwNzk...';// Pass the user's email addressvar userInfo = {  email: 'sarad@contoso.com'};outlook.contacts.deleteContact({token: token, contactId: contactId, user: userInfo},  function(error, result){    if (error) {      console.log('deleteContact returned an error: ' + error);    }    else if (result) {      console.log('SUCCESS');    }  });
 ```
