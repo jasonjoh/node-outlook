@@ -9,7 +9,7 @@ var utilities = require('./utilities.js');
 module.exports = {
   /**
    * Used to get events from a calendar.
-   * 
+   *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
@@ -17,29 +17,29 @@ module.exports = {
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.calendarId] {string} The calendar id. If absent, the API calls the `/User/Events` endpoint.
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
-   * 
+   *
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
-   * 
+   *
    * @example var outlook = require('node-outlook');
-   * 
+   *
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-   * 
+   *
    * // This is the oAuth token 
    * var token = 'eyJ0eXAiOiJKV1Q...';
-   * 
+   *
    * // Set up oData parameters
    * var queryParams = {
    *   '$select': 'Subject,Start,End',
    *   '$orderby': 'Start/DateTime desc',
    *   '$top': 20
    * };
-   * 
+   *
    * // Pass the user's email address
    * var userInfo = {
    *   email: 'sarad@contoso.com'
    * };
-   * 
+   *
    * outlook.calendar.getEvents({token: token, folderId: 'Inbox', odataParams: queryParams, user: userInfo},
    *   function(error, result){
    *     if (error) {
@@ -58,19 +58,19 @@ module.exports = {
   getEvents: function(parameters, callback){
     var userSpec = utilities.getUserSegment(parameters);
     var calendarSpec = parameters.calendarId === undefined ? '' : '/Calendars/' + parameters.calendarId;
-    
+
     var requestUrl = base.apiEndpoint() + userSpec + calendarSpec + '/Events';
-    
+
     var apiOptions = {
       url: requestUrl,
       token: parameters.token,
       user: parameters.user
     };
-    
+
     if (parameters.odataParams !== undefined) {
       apiOptions['query'] = parameters.odataParams;
     }
-    
+
     base.makeApiCall(apiOptions, function(error, response) {
       if (error) {
         if (typeof callback === 'function') {
@@ -89,10 +89,10 @@ module.exports = {
       }
     });
   },
-  
+
   /**
    * Syncs events of a calendar.
-   * 
+   *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.startDateTime {string} The start time and date for the calendar view in ISO 8601 format without a timezone designator. Time zone is assumed to be UTC unless the `Prefer: outlook.timezone` header is sent in the request.
@@ -103,20 +103,20 @@ module.exports = {
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.calendarId] {string} The calendar id. If absent, the API calls the `/User/calendarview` endpoint. Valid values of this parameter are:
-   * 
+   *
    * - The `Id` property of a `Calendar` entity
    * - `Primary`, the primary calendar is used. It is used by default if no Id is specified
-   * 
+   *
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
-   * 
+   *
    * @example var outlook = require('node-outlook');
-   * 
+   *
    * // Set the API endpoint to use the 2.0 version of the api
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-   * 
+   *
    * // This is the oAuth token 
    * var token = 'eyJ0eXAiOiJKV1Q...';
-   * 
+   *
    * // Pass the user's email address
    * var userInfo = {
    *   email: 'sarad@contoso.com'
@@ -125,7 +125,7 @@ module.exports = {
    * // You have to specify a time window
    * var startDateTime = "2017-01-01";
    * var endDateTime = "2017-12-31";
-   * 
+   *
    * var apiOptions = {
    *   token: token,
    *   calendarId: 'calendar_id', // If none specified, the Primary calendar will be used
@@ -141,7 +141,7 @@ module.exports = {
    *     // Do something with the events.value array
    *     // Then get the @odata.deltaLink
    *     var delta = messages['@odata.deltaLink'];
-   * 
+   *
    *     // Handle deltaLink value appropriately:
    *     // In general, if the deltaLink has a $skiptoken, that means there are more
    *     // "pages" in the sync results, you should call syncEvents again, passing
@@ -155,7 +155,7 @@ module.exports = {
    *   }
    * }
    */
-  
+
   syncEvents: function(parameters, callback) {
       var userSpec = utilities.getUserSegment(parameters);
       var calendarSpec = parameters.calendarId === undefined ? '' : "/calendars/" + parameters.calendarId;
@@ -204,10 +204,10 @@ module.exports = {
           }
       });
   },
-  
+
   /**
    * Used to get a specific event.
-   * 
+   *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.eventId {string} The Id of the event.
@@ -216,29 +216,29 @@ module.exports = {
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
-   * 
+   *
    * @example var outlook = require('node-outlook');
-   * 
+   *
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-   * 
+   *
    * // This is the oAuth token 
    * var token = 'eyJ0eXAiOiJKV1Q...';
-   * 
+   *
    * // The Id property of the event to retrieve. This could be 
    * // from a previous call to getEvents
    * var eventId = 'AAMkADVhYTYwNzk...';
-   * 
+   *
    * // Set up oData parameters
    * var queryParams = {
    *   '$select': 'Subject,Start,End'
    * };
-   * 
+   *
    * // Pass the user's email address
    * var userInfo = {
    *   email: 'sarad@contoso.com'
    * };
-   * 
+   *
    * outlook.calendar.getEvent({token: token, eventId: eventId, odataParams: queryParams, user: userInfo},
    *   function(error, result){
    *     if (error) {
@@ -253,19 +253,19 @@ module.exports = {
    */
   getEvent: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
-    
+
     var requestUrl = base.apiEndpoint() + userSpec + '/Events/' + parameters.eventId;
-    
+
     var apiOptions = {
       url: requestUrl,
       token: parameters.token,
       user: parameters.user
     };
-    
+
     if (parameters.odataParams !== undefined) {
       apiOptions['query'] = parameters.odataParams;
     }
-    
+
     base.makeApiCall(apiOptions, function(error, response) {
       if (error) {
         if (typeof callback === 'function') {
@@ -284,10 +284,10 @@ module.exports = {
       }
     });
   },
-  
+
   /**
    * Create a new event
-   * 
+   *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.event {object} The JSON-serializable event 
@@ -296,15 +296,15 @@ module.exports = {
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.calendarId] {string} The calendar id. If absent, the API calls the `/User/Events` endpoint.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
-   * 
+   *
    * @example var outlook = require('node-outlook');
-   * 
+   *
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-   * 
+   *
    * // This is the oAuth token 
    * var token = 'eyJ0eXAiOiJKV1Q...';
-   * 
+   *
    * var newEvent = {
    *   "Subject": "Discuss the Calendar REST API",
    *   "Body": {
@@ -329,12 +329,12 @@ module.exports = {
    *     }
    *   ]
    * };
-   * 
+   *
    * // Pass the user's email address
    * var userInfo = {
    *   email: 'sarad@contoso.com'
    * };
-   * 
+   *
    * outlook.calendar.createEvent({token: token, event: newEvent, user: userInfo},
    *   function(error, result){
    *     if (error) {
@@ -348,9 +348,9 @@ module.exports = {
   createEvent: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
     var calendarSpec = parameters.calendarId === undefined ? '' : '/Calendars/' + parameters.calendarId;
-    
+
     var requestUrl = base.apiEndpoint() + userSpec + calendarSpec + '/Events';
-    
+
     var apiOptions = {
       url: requestUrl,
       token: parameters.token,
@@ -358,7 +358,7 @@ module.exports = {
       payload: parameters.event,
       method: 'POST'
     };
-    
+
     base.makeApiCall(apiOptions, function(error, response) {
       if (error) {
         if (typeof callback === 'function') {
@@ -377,10 +377,10 @@ module.exports = {
       }
     });
   },
-  
+
   /**
    * Update a specific event.
-   * 
+   *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.eventId {string} The Id of the event.
@@ -390,31 +390,31 @@ module.exports = {
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
-   * 
+   *
    * @example var outlook = require('node-outlook');
-   * 
+   *
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-   * 
+   *
    * // This is the oAuth token 
    * var token = 'eyJ0eXAiOiJKV1Q...';
-   * 
+   *
    * // The Id property of the event to update. This could be 
    * // from a previous call to getEvents
    * var eventId = 'AAMkADVhYTYwNzk...';
-   * 
+   *
    * // Update the location
    * var update = {
    *   Location: {
    *     DisplayName: 'Conference Room 2'
    *   }
    * };
-   * 
+   *
    * // Pass the user's email address
    * var userInfo = {
    *   email: 'sarad@contoso.com'
    * };
-   * 
+   *
    * outlook.calendar.updateEvent({token: token, eventId: eventId, update: update, user: userInfo},
    *   function(error, result){
    *     if (error) {
@@ -427,9 +427,9 @@ module.exports = {
    */
   updateEvent: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
-    
+
     var requestUrl = base.apiEndpoint() + userSpec + '/Events/' + parameters.eventId;
-    
+
     var apiOptions = {
       url: requestUrl,
       token: parameters.token,
@@ -437,11 +437,11 @@ module.exports = {
       payload: parameters.update,
       method: 'PATCH'
     };
-    
+
     if (parameters.odataParams !== undefined) {
       apiOptions['query'] = parameters.odataParams;
     }
-    
+
     base.makeApiCall(apiOptions, function(error, response) {
       if (error) {
         if (typeof callback === 'function') {
@@ -460,10 +460,10 @@ module.exports = {
       }
     });
   },
-  
+
   /**
    * Delete a specific event.
-   * 
+   *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.eventId {string} The Id of the event.
@@ -471,24 +471,24 @@ module.exports = {
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
-   * 
+   *
    * @example var outlook = require('node-outlook');
-   * 
+   *
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-   * 
+   *
    * // This is the oAuth token 
    * var token = 'eyJ0eXAiOiJKV1Q...';
-   * 
+   *
    * // The Id property of the event to delete. This could be 
    * // from a previous call to getEvents
    * var eventId = 'AAMkADVhYTYwNzk...';
-   * 
+   *
    * // Pass the user's email address
    * var userInfo = {
    *   email: 'sarad@contoso.com'
    * };
-   * 
+   *
    * outlook.calendar.deleteEvent({token: token, eventId: eventId, user: userInfo},
    *   function(error, result){
    *     if (error) {
@@ -501,20 +501,20 @@ module.exports = {
    */
   deleteEvent: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
-    
+
     var requestUrl = base.apiEndpoint() + userSpec + '/Events/' + parameters.eventId;
-    
+
     var apiOptions = {
       url: requestUrl,
       token: parameters.token,
       user: parameters.user,
       method: 'DELETE'
     };
-    
+
     if (parameters.odataParams !== undefined) {
       apiOptions['query'] = parameters.odataParams;
     }
-    
+
     base.makeApiCall(apiOptions, function(error, response) {
       if (error) {
         if (typeof callback === 'function') {

@@ -10,38 +10,38 @@ var utilities = require('./utilities.js');
 module.exports = {
   /**
    * Used to get contacts from a contact folder.
-   * 
+   *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.contactFolderId] {string} The contact folder id. If absent, the API calls the `/User/Contacts` endpoint.
-   * 
+   *
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
-   * 
+   *
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
-   * 
+   *
    * @example var outlook = require('node-outlook');
-   * 
+   *
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-   * 
+   *
    * // This is the oAuth token 
    * var token = 'eyJ0eXAiOiJKV1Q...';
-   * 
+   *
    * // Set up oData parameters
    * var queryParams = {
    *   '$select': 'GivenName,Surname,EmailAddresses',
    *   '$orderby': 'CreatedDateTime desc',
    *   '$top': 20
    * };
-   * 
+   *
    * // Pass the user's email address
    * var userInfo = {
    *   email: 'sarad@contoso.com'
    * };
-   * 
+   *
    * outlook.contacts.getContacts({token: token, odataParams: queryParams, user: userInfo},
    *   function(error, result){
    *     if (error) {
@@ -60,19 +60,19 @@ module.exports = {
   getContacts: function(parameters, callback){
     var userSpec = utilities.getUserSegment(parameters);
     var contactFolderSpec = parameters.folderId === undefined ? '' : '/ContactFolders/' + parameters.folderId;
-    
+
     var requestUrl = base.apiEndpoint() + userSpec + contactFolderSpec + '/Contacts';
-    
+
     var apiOptions = {
       url: requestUrl,
       token: parameters.token,
       user: parameters.user
     };
-    
+
     if (parameters.odataParams !== undefined) {
       apiOptions['query'] = parameters.odataParams;
     }
-    
+
     base.makeApiCall(apiOptions, function(error, response) {
       if (error) {
         if (typeof callback === 'function') {
@@ -91,10 +91,10 @@ module.exports = {
       }
     });
   },
-  
+
   /**
    * Used to get a specific contact.
-   * 
+   *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.contactId {string} The Id of the contact.
@@ -103,29 +103,29 @@ module.exports = {
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
-   * 
+   *
    * @example var outlook = require('node-outlook');
-   * 
+   *
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-   * 
+   *
    * // This is the oAuth token 
    * var token = 'eyJ0eXAiOiJKV1Q...';
-   * 
+   *
    * // The Id property of the contact to retrieve. This could be 
    * // from a previous call to getContacts
    * var contactId = 'AAMkADVhYTYwNzk...';
-   * 
+   *
    * // Set up oData parameters
    * var queryParams = {
    *   '$select': 'GivenName,Surname,EmailAddresses'
    * };
-   * 
+   *
    * // Pass the user's email address
    * var userInfo = {
    *   email: 'sarad@contoso.com'
    * };
-   * 
+   *
    * outlook.contacts.getContact({token: token, contactId: contactId, odataParams: queryParams, user: userInfo},
    *   function(error, result){
    *     if (error) {
@@ -140,19 +140,19 @@ module.exports = {
    */
   getContact: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
-    
+
     var requestUrl = base.apiEndpoint() + userSpec + '/Contacts/' + parameters.contactId;
-    
+
     var apiOptions = {
       url: requestUrl,
       token: parameters.token,
       user: parameters.user
     };
-    
+
     if (parameters.odataParams !== undefined) {
       apiOptions['query'] = parameters.odataParams;
     }
-    
+
     base.makeApiCall(apiOptions, function(error, response) {
       if (error) {
         if (typeof callback === 'function') {
@@ -171,10 +171,10 @@ module.exports = {
       }
     });
   },
-  
+
   /**
    * Create a new contact
-   * 
+   *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.contact {object} The JSON-serializable contact 
@@ -183,15 +183,15 @@ module.exports = {
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.contactFolderId] {string} The contact folder id. If absent, the API calls the `/User/Contacts` endpoint.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
-   * 
+   *
    * @example var outlook = require('node-outlook');
-   * 
+   *
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-   * 
+   *
    * // This is the oAuth token 
    * var token = 'eyJ0eXAiOiJKV1Q...';
-   * 
+   *
    * var newContact = {
    *   "GivenName": "Pavel",
    *   "Surname": "Bansky",
@@ -205,12 +205,12 @@ module.exports = {
    *     "+1 732 555 0102"
    *   ]
    * };
-   * 
+   *
    * // Pass the user's email address
    * var userInfo = {
    *   email: 'sarad@contoso.com'
    * };
-   * 
+   *
    * outlook.contacts.createContact({token: token, contact: newContact, user: userInfo},
    *   function(error, result){
    *     if (error) {
@@ -224,9 +224,9 @@ module.exports = {
   createContact: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
     var folderSpec = parameters.folderId === undefined ? '' : '/ContactFolders/' + parameters.folderId;
-    
+
     var requestUrl = base.apiEndpoint() + userSpec + folderSpec + '/Contacts';
-    
+
     var apiOptions = {
       url: requestUrl,
       token: parameters.token,
@@ -234,7 +234,7 @@ module.exports = {
       payload: parameters.contact,
       method: 'POST'
     };
-    
+
     base.makeApiCall(apiOptions, function(error, response) {
       if (error) {
         if (typeof callback === 'function') {
@@ -253,10 +253,10 @@ module.exports = {
       }
     });
   },
-  
+
   /**
    * Update a specific contact.
-   * 
+   *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.contactId {string} The Id of the contact.
@@ -266,29 +266,29 @@ module.exports = {
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
-   * 
+   *
    * @example var outlook = require('node-outlook');
-   * 
+   *
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-   * 
+   *
    * // This is the oAuth token 
    * var token = 'eyJ0eXAiOiJKV1Q...';
-   * 
+   *
    * // The Id property of the contact to update. This could be 
    * // from a previous call to getContacts
    * var contactId = 'AAMkADVhYTYwNzk...';
-   * 
+   *
    * // Change the mobile number
    * var update = {
    *   MobilePhone1: '425-555-1212',
    * };
-   * 
+   *
    * // Pass the user's email address
    * var userInfo = {
    *   email: 'sarad@contoso.com'
    * };
-   * 
+   *
    * outlook.contacts.updateContact({token: token, contactId: contactId, update: update, user: userInfo},
    *   function(error, result){
    *     if (error) {
@@ -301,9 +301,9 @@ module.exports = {
    */
   updateContact: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
-    
+
     var requestUrl = base.apiEndpoint() + userSpec + '/Contacts/' + parameters.contactId;
-    
+
     var apiOptions = {
       url: requestUrl,
       token: parameters.token,
@@ -311,11 +311,11 @@ module.exports = {
       payload: parameters.update,
       method: 'PATCH'
     };
-    
+
     if (parameters.odataParams !== undefined) {
       apiOptions['query'] = parameters.odataParams;
     }
-    
+
     base.makeApiCall(apiOptions, function(error, response) {
       if (error) {
         if (typeof callback === 'function') {
@@ -334,10 +334,10 @@ module.exports = {
       }
     });
   },
-  
+
   /**
    * Delete a specific contact.
-   * 
+   *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.contactId {string} The Id of the contact.
@@ -345,24 +345,24 @@ module.exports = {
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
-   * 
+   *
    * @example var outlook = require('node-outlook');
-   * 
+   *
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-   * 
+   *
    * // This is the oAuth token 
    * var token = 'eyJ0eXAiOiJKV1Q...';
-   * 
+   *
    * // The Id property of the contact to delete. This could be 
    * // from a previous call to getContacts
    * var contactId = 'AAMkADVhYTYwNzk...';
-   * 
+   *
    * // Pass the user's email address
    * var userInfo = {
    *   email: 'sarad@contoso.com'
    * };
-   * 
+   *
    * outlook.contacts.deleteContact({token: token, contactId: contactId, user: userInfo},
    *   function(error, result){
    *     if (error) {
@@ -375,20 +375,20 @@ module.exports = {
    */
   deleteContact: function(parameters, callback) {
     var userSpec = utilities.getUserSegment(parameters);
-    
+
     var requestUrl = base.apiEndpoint() + userSpec + '/Contacts/' + parameters.contactId;
-    
+
     var apiOptions = {
       url: requestUrl,
       token: parameters.token,
       user: parameters.user,
       method: 'DELETE'
     };
-    
+
     if (parameters.odataParams !== undefined) {
       apiOptions['query'] = parameters.odataParams;
     }
-    
+
     base.makeApiCall(apiOptions, function(error, response) {
       if (error) {
         if (typeof callback === 'function') {

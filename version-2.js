@@ -16,7 +16,7 @@ var defaultTimeZone = '';
 module.exports = {
   /**
    * Used to do the actual send of a REST request to the REST endpoint.
-   * 
+   *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.url {string} The full URL of the API endpoint
    * @param parameters.token {string} The access token for authentication
@@ -37,13 +37,13 @@ module.exports = {
       }
       return;
     }
-    
+
     var method = parameters.method === undefined ? 'GET' : parameters.method;
-    
+
     trace('url: ' + parameters.url);
     trace('token: ' + parameters.token);
     trace('method: ' + method);
-    
+
     var auth = {
       'bearer': parameters.token
     };
@@ -53,7 +53,7 @@ module.exports = {
     headers['User-Agent'] = headers['User-Agent'] || 'node-outlook/2.0';
     headers['client-request-id'] = headers['client-request-id'] || uuid.v4();
     headers['return-client-request-id'] = headers['return-client-request-id'] || 'true';
-    
+
     // Determine if we have an anchor mailbox to use
     // Passed parameter has greater priority than module-level default
     var anchorMbx = '';
@@ -63,11 +63,11 @@ module.exports = {
     else {
       anchorMbx = defaultAnchor;
     }
-    
+
     if (anchorMbx.length > 0) {
       headers['X-Anchor-Mailbox'] = anchorMbx;
     }
-    
+
     // Determine if we have a time zone to use
     // Passed parameter has greater priority than module-level default
     var timezone = '';
@@ -77,7 +77,7 @@ module.exports = {
     else {
       timezone = defaultTimeZone;
     }
-    
+
     if (timezone.length > 0) {
       headers['Prefer'] = headers['Prefer'] || [];
       headers['Prefer'].push('outlook.timezone = "' + timezone + '"');
@@ -90,24 +90,24 @@ module.exports = {
       auth: auth,
       json: true
     };
-    
+
     if (parameters.query !== undefined) {
       trace('query:' + JSON.stringify(parameters.query));
       options['qs'] = parameters.query;
     }
-    
+
     if (fiddlerEnabled) {
       options['proxy'] = 'http://127.0.0.1:8888';
       options['strictSSL'] = false;
     }
-    
+
     if (method.toUpperCase() === 'POST' || method.toUpperCase() === 'PATCH') {
       if (parameters.payload !== undefined) {
         trace('payload:' + JSON.stringify(parameters.payload));
       }
       options['body'] = parameters.payload;
     }
-    
+
     request(options, function(error, response, body) {
       if (typeof callback === 'function') {
         callback(error, response);
@@ -117,27 +117,27 @@ module.exports = {
 
   /**
    * Used to get information about a user.
-   * 
+   *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.odataParams] {object} An object containing key/value pairs representing OData query parameters. See [Use OData query parameters]{@link https://msdn.microsoft.com/office/office365/APi/complex-types-for-mail-contacts-calendar#UseODataqueryparameters} for details.
    * @param [callback] {function} A callback function that is called when the function completes. It should have the signature `function (error, result)`.
-   * 
+   *
    * @example var outlook = require('node-outlook');
-   * 
+   *
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
-   * 
+   *
    * // This is the oAuth token 
    * var token = 'eyJ0eXAiOiJKV1Q...';
-   * 
+   *
    * // Set up oData parameters
    * var queryParams = {
    *   '$select': 'DisplayName, EmailAddress',
    * };
-   * 
+   *
    * outlook.base.getUser({token: token, odataParams: queryParams},
    *   function(error, result) {
    *     if (error) {
@@ -182,25 +182,25 @@ module.exports = {
       }
     });
   },
-  
+
   /**
    * Used to provide a tracing function.
-   * 
+   *
    * @param traceFunc {function} A function that takes a string parameter. The string parameter contains the text to add to the trace.
    */
   setTraceFunc: function(traceFunc) {
     traceFunction = traceFunc;
   },
-  
+
   /**
    * Used to enable network sniffing with Fiddler.
-   * 
+   *
    * @param enabled {boolean} `true` to enable default Fiddler proxy and disable SSL verification. `false` to disable proxy and enable SSL verification.
    */
   setFiddlerEnabled: function(enabled) {
     fiddlerEnabled = enabled;
   },
-  
+
   /**
    * Gets the API endpoint URL.
    * @return {string}
@@ -208,16 +208,16 @@ module.exports = {
   apiEndpoint: function() {
     return endpoint;
   },
-  
+
   /**
    * Sets the API endpoint URL. If not called, the default of `https://outlook.office.com/api/v1.0` is used.
-   * 
+   *
    * @param newEndPoint {string} The API endpoint URL to use.
    */
   setApiEndpoint: function(newEndPoint) {
     endpoint = newEndPoint;
   },
-  
+
   /**
    * Gets the default anchor mailbox address.
    * @return {string}
@@ -225,16 +225,16 @@ module.exports = {
   anchorMailbox: function() {
     return defaultAnchor;
   },
-  
+
   /**
    * Sets the default anchor mailbox address.
-   * 
+   *
    * @param newAnchor {string} The SMTP address to send in the `X-Anchor-Mailbox` header.
    */
   setAnchorMailbox: function(newAnchor) {
     defaultAnchor = newAnchor;
   },
-  
+
   /**
    * Gets the default preferred time zone.
    * @return {string}
@@ -242,10 +242,10 @@ module.exports = {
   preferredTimeZone: function() {
     return defaultTimeZone;
   },
-  
+
   /**
    * Sets the default preferred time zone.
-   * 
+   *
    * @param preferredTimeZone {string} The time zone in which the server should return date time values.
    */
   setPreferredTimeZone: function(preferredTimeZone) {
