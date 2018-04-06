@@ -25,7 +25,7 @@ module.exports = {
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
    *
-   * // This is the oAuth token 
+   * // This is the oAuth token
    * var token = 'eyJ0eXAiOiJKV1Q...';
    *
    * // Set up oData parameters
@@ -114,7 +114,7 @@ module.exports = {
    * // Set the API endpoint to use the 2.0 version of the api
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
    *
-   * // This is the oAuth token 
+   * // This is the oAuth token
    * var token = 'eyJ0eXAiOiJKV1Q...';
    *
    * // Pass the user's email address
@@ -222,10 +222,10 @@ module.exports = {
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
    *
-   * // This is the oAuth token 
+   * // This is the oAuth token
    * var token = 'eyJ0eXAiOiJKV1Q...';
    *
-   * // The Id property of the event to retrieve. This could be 
+   * // The Id property of the event to retrieve. This could be
    * // from a previous call to getEvents
    * var eventId = 'AAMkADVhYTYwNzk...';
    *
@@ -290,7 +290,7 @@ module.exports = {
    *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
-   * @param parameters.event {object} The JSON-serializable event 
+   * @param parameters.event {object} The JSON-serializable event
    * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
@@ -302,7 +302,7 @@ module.exports = {
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
    *
-   * // This is the oAuth token 
+   * // This is the oAuth token
    * var token = 'eyJ0eXAiOiJKV1Q...';
    *
    * var newEvent = {
@@ -384,7 +384,7 @@ module.exports = {
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.eventId {string} The Id of the event.
-   * @param parameters.update {object} The JSON-serializable update payload 
+   * @param parameters.update {object} The JSON-serializable update payload
    * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
@@ -396,10 +396,10 @@ module.exports = {
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
    *
-   * // This is the oAuth token 
+   * // This is the oAuth token
    * var token = 'eyJ0eXAiOiJKV1Q...';
    *
-   * // The Id property of the event to update. This could be 
+   * // The Id property of the event to update. This could be
    * // from a previous call to getEvents
    * var eventId = 'AAMkADVhYTYwNzk...';
    *
@@ -477,10 +477,10 @@ module.exports = {
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
    *
-   * // This is the oAuth token 
+   * // This is the oAuth token
    * var token = 'eyJ0eXAiOiJKV1Q...';
    *
-   * // The Id property of the event to delete. This could be 
+   * // The Id property of the event to delete. This could be
    * // from a previous call to getEvents
    * var eventId = 'AAMkADVhYTYwNzk...';
    *
@@ -536,24 +536,24 @@ module.exports = {
 };
 
 /*
-  MIT License: 
+  MIT License:
 
-  Permission is hereby granted, free of charge, to any person obtaining 
-  a copy of this software and associated documentation files (the 
-  ""Software""), to deal in the Software without restriction, including 
-  without limitation the rights to use, copy, modify, merge, publish, 
-  distribute, sublicense, and/or sell copies of the Software, and to 
-  permit persons to whom the Software is furnished to do so, subject to 
-  the following conditions: 
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  ""Software""), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
 
-  The above copyright notice and this permission notice shall be 
-  included in all copies or substantial portions of the Software. 
+  The above copyright notice and this permission notice shall be
+  included in all copies or substantial portions of the Software.
 
-  THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, 
-  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
-  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
-  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE 
-  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
-  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+  THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
   WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

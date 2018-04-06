@@ -27,7 +27,7 @@ module.exports = {
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
    *
-   * // This is the oAuth token 
+   * // This is the oAuth token
    * var token = 'eyJ0eXAiOiJKV1Q...';
    *
    * // Set up oData parameters
@@ -109,10 +109,10 @@ module.exports = {
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
    *
-   * // This is the oAuth token 
+   * // This is the oAuth token
    * var token = 'eyJ0eXAiOiJKV1Q...';
    *
-   * // The Id property of the contact to retrieve. This could be 
+   * // The Id property of the contact to retrieve. This could be
    * // from a previous call to getContacts
    * var contactId = 'AAMkADVhYTYwNzk...';
    *
@@ -177,7 +177,7 @@ module.exports = {
    *
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
-   * @param parameters.contact {object} The JSON-serializable contact 
+   * @param parameters.contact {object} The JSON-serializable contact
    * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
@@ -189,7 +189,7 @@ module.exports = {
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
    *
-   * // This is the oAuth token 
+   * // This is the oAuth token
    * var token = 'eyJ0eXAiOiJKV1Q...';
    *
    * var newContact = {
@@ -260,7 +260,7 @@ module.exports = {
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
    * @param parameters.contactId {string} The Id of the contact.
-   * @param parameters.update {object} The JSON-serializable update payload 
+   * @param parameters.update {object} The JSON-serializable update payload
    * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
@@ -272,10 +272,10 @@ module.exports = {
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
    *
-   * // This is the oAuth token 
+   * // This is the oAuth token
    * var token = 'eyJ0eXAiOiJKV1Q...';
    *
-   * // The Id property of the contact to update. This could be 
+   * // The Id property of the contact to update. This could be
    * // from a previous call to getContacts
    * var contactId = 'AAMkADVhYTYwNzk...';
    *
@@ -351,10 +351,10 @@ module.exports = {
    * // Set the API endpoint to use the v2.0 endpoint
    * outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
    *
-   * // This is the oAuth token 
+   * // This is the oAuth token
    * var token = 'eyJ0eXAiOiJKV1Q...';
    *
-   * // The Id property of the contact to delete. This could be 
+   * // The Id property of the contact to delete. This could be
    * // from a previous call to getContacts
    * var contactId = 'AAMkADVhYTYwNzk...';
    *
