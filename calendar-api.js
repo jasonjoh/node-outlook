@@ -160,7 +160,7 @@ module.exports = {
       var userSpec = utilities.getUserSegment(parameters);
       var calendarSpec = parameters.calendarId === undefined ? '' : "/calendars/" + parameters.calendarId;
 
-      var requestUrl = base.apiEndpoint() + userSpec + '/calendarview?startdatetime=' + parameters.startDateTime + '&enddatetime=' + parameters.endDateTime;
+      var requestUrl = base.apiEndpoint() + userSpec + calendarSpec + '/calendarview?startdatetime=' + parameters.startDateTime + '&enddatetime=' + parameters.endDateTime;
 
       var query = parameters.odataParams || {};
       if (parameters.skipToken) {
