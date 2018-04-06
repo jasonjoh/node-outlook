@@ -782,7 +782,6 @@ module.exports = {
    * var comment = "Sounds great! See you tomorrow.";
    * var messageId = "AAMkAGE0Mz8DmAAA=";
    * 
-   * 
    * outlook.mail.replyToMessage({token: token, comment: comment, messageId: messageId},
    *   function(error, result){
    *     if (error) {
@@ -805,6 +804,7 @@ module.exports = {
     var apiOptions = {
       url: requestUrl,
       token: parameters.token,
+      user: parameters.user,
       payload: payload,
       method: 'POST'
     };
@@ -851,7 +851,6 @@ module.exports = {
    * var comment = "Sounds great! See you tomorrow.";
    * var messageId = "AAMkAGE0Mz8DmAAA=";
    * 
-   * 
    * outlook.mail.replyToAllMessage({token: token, comment: comment, messageId: messageId},
    *   function(error, result){
    *     if (error) {
@@ -874,6 +873,7 @@ module.exports = {
     var apiOptions = {
       url: requestUrl,
       token: parameters.token,
+      user: parameters.user,
       payload: payload,
       method: 'POST'
     };
