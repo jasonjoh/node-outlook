@@ -32,7 +32,7 @@
 ### base.makeApiCall(parameters, [callback])
 Used to do the actual send of a REST request to the REST endpoint.
 
-**Kind**: static method of <code>[base](#module_base)</code>  
+**Kind**: static method of [<code>base</code>](#module_base)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -52,7 +52,7 @@ Used to do the actual send of a REST request to the REST endpoint.
 ### base.getUser(parameters, [callback])
 Used to get information about a user.
 
-**Kind**: static method of <code>[base](#module_base)</code>  
+**Kind**: static method of [<code>base</code>](#module_base)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -72,7 +72,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### base.setTraceFunc(traceFunc)
 Used to provide a tracing function.
 
-**Kind**: static method of <code>[base](#module_base)</code>  
+**Kind**: static method of [<code>base</code>](#module_base)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -83,7 +83,7 @@ Used to provide a tracing function.
 ### base.setFiddlerEnabled(enabled)
 Used to enable network sniffing with Fiddler.
 
-**Kind**: static method of <code>[base](#module_base)</code>  
+**Kind**: static method of [<code>base</code>](#module_base)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -94,13 +94,13 @@ Used to enable network sniffing with Fiddler.
 ### base.apiEndpoint() ⇒ <code>string</code>
 Gets the API endpoint URL.
 
-**Kind**: static method of <code>[base](#module_base)</code>  
+**Kind**: static method of [<code>base</code>](#module_base)  
 <a name="module_base.setApiEndpoint"></a>
 
 ### base.setApiEndpoint(newEndPoint)
 Sets the API endpoint URL. If not called, the default of `https://outlook.office.com/api/v1.0` is used.
 
-**Kind**: static method of <code>[base](#module_base)</code>  
+**Kind**: static method of [<code>base</code>](#module_base)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -111,13 +111,13 @@ Sets the API endpoint URL. If not called, the default of `https://outlook.office
 ### base.anchorMailbox() ⇒ <code>string</code>
 Gets the default anchor mailbox address.
 
-**Kind**: static method of <code>[base](#module_base)</code>  
+**Kind**: static method of [<code>base</code>](#module_base)  
 <a name="module_base.setAnchorMailbox"></a>
 
 ### base.setAnchorMailbox(newAnchor)
 Sets the default anchor mailbox address.
 
-**Kind**: static method of <code>[base](#module_base)</code>  
+**Kind**: static method of [<code>base</code>](#module_base)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -128,13 +128,13 @@ Sets the default anchor mailbox address.
 ### base.preferredTimeZone() ⇒ <code>string</code>
 Gets the default preferred time zone.
 
-**Kind**: static method of <code>[base](#module_base)</code>  
+**Kind**: static method of [<code>base</code>](#module_base)  
 <a name="module_base.setPreferredTimeZone"></a>
 
 ### base.setPreferredTimeZone(preferredTimeZone)
 Sets the default preferred time zone.
 
-**Kind**: static method of <code>[base](#module_base)</code>  
+**Kind**: static method of [<code>base</code>](#module_base)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -162,7 +162,7 @@ Sets the default preferred time zone.
 ### mail.getMessages(parameters, [callback])
 Used to get messages from a folder.
 
-**Kind**: static method of <code>[mail](#module_mail)</code>  
+**Kind**: static method of [<code>mail</code>](#module_mail)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -184,7 +184,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### mail.getMessage(parameters, [callback])
 Used to get a specific message.
 
-**Kind**: static method of <code>[mail](#module_mail)</code>  
+**Kind**: static method of [<code>mail</code>](#module_mail)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -206,7 +206,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### mail.getMessageAttachments(parameters, [callback])
 Get all attachments from a message
 
-**Kind**: static method of <code>[mail](#module_mail)</code>  
+**Kind**: static method of [<code>mail</code>](#module_mail)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -228,7 +228,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### mail.createMessage(parameters, [callback])
 Create a new message
 
-**Kind**: static method of <code>[mail](#module_mail)</code>  
+**Kind**: static method of [<code>mail</code>](#module_mail)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -250,7 +250,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### mail.updateMessage(parameters, [callback])
 Update a specific message.
 
-**Kind**: static method of <code>[mail](#module_mail)</code>  
+**Kind**: static method of [<code>mail</code>](#module_mail)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -273,7 +273,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### mail.deleteMessage(parameters, [callback])
 Delete a specific message.
 
-**Kind**: static method of <code>[mail](#module_mail)</code>  
+**Kind**: static method of [<code>mail</code>](#module_mail)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -294,7 +294,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### mail.sendNewMessage(parameters, [callback])
 Sends a new message
 
-**Kind**: static method of <code>[mail](#module_mail)</code>  
+**Kind**: static method of [<code>mail</code>](#module_mail)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -316,7 +316,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### mail.sendDraftMessage(parameters, [callback])
 Sends a draft message.
 
-**Kind**: static method of <code>[mail](#module_mail)</code>  
+**Kind**: static method of [<code>mail</code>](#module_mail)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -337,7 +337,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### mail.syncMessages(parameters, [callback])
 Syncs messages in a folder.
 
-**Kind**: static method of <code>[mail](#module_mail)</code>  
+**Kind**: static method of [<code>mail</code>](#module_mail)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -362,7 +362,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the beta 
 ### mail.replyToMessage(parameters, [callback])
 Reply to sender
 
-**Kind**: static method of <code>[mail](#module_mail)</code>  
+**Kind**: static method of [<code>mail</code>](#module_mail)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -384,7 +384,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### mail.replyToAllMessage(parameters, [callback])
 Reply to all
 
-**Kind**: static method of <code>[mail](#module_mail)</code>  
+**Kind**: static method of [<code>mail</code>](#module_mail)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -418,7 +418,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### calendar.getEvents(parameters, [callback])
 Used to get events from a calendar.
 
-**Kind**: static method of <code>[calendar](#module_calendar)</code>  
+**Kind**: static method of [<code>calendar</code>](#module_calendar)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -440,7 +440,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### calendar.syncEvents(parameters, [callback])
 Syncs events of a calendar.
 
-**Kind**: static method of <code>[calendar](#module_calendar)</code>  
+**Kind**: static method of [<code>calendar</code>](#module_calendar)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -465,7 +465,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the 2.0 v
 ### calendar.getEvent(parameters, [callback])
 Used to get a specific event.
 
-**Kind**: static method of <code>[calendar](#module_calendar)</code>  
+**Kind**: static method of [<code>calendar</code>](#module_calendar)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -487,7 +487,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### calendar.createEvent(parameters, [callback])
 Create a new event
 
-**Kind**: static method of <code>[calendar](#module_calendar)</code>  
+**Kind**: static method of [<code>calendar</code>](#module_calendar)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -509,7 +509,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### calendar.updateEvent(parameters, [callback])
 Update a specific event.
 
-**Kind**: static method of <code>[calendar](#module_calendar)</code>  
+**Kind**: static method of [<code>calendar</code>](#module_calendar)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -532,7 +532,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### calendar.deleteEvent(parameters, [callback])
 Delete a specific event.
 
-**Kind**: static method of <code>[calendar](#module_calendar)</code>  
+**Kind**: static method of [<code>calendar</code>](#module_calendar)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -564,7 +564,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### contacts.getContacts(parameters, [callback])
 Used to get contacts from a contact folder.
 
-**Kind**: static method of <code>[contacts](#module_contacts)</code>  
+**Kind**: static method of [<code>contacts</code>](#module_contacts)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -586,7 +586,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### contacts.getContact(parameters, [callback])
 Used to get a specific contact.
 
-**Kind**: static method of <code>[contacts](#module_contacts)</code>  
+**Kind**: static method of [<code>contacts</code>](#module_contacts)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -608,7 +608,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### contacts.createContact(parameters, [callback])
 Create a new contact
 
-**Kind**: static method of <code>[contacts](#module_contacts)</code>  
+**Kind**: static method of [<code>contacts</code>](#module_contacts)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -630,7 +630,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### contacts.updateContact(parameters, [callback])
 Update a specific contact.
 
-**Kind**: static method of <code>[contacts](#module_contacts)</code>  
+**Kind**: static method of [<code>contacts</code>](#module_contacts)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -653,7 +653,7 @@ var outlook = require('node-outlook');// Set the API endpoint to use the v2.0 
 ### contacts.deleteContact(parameters, [callback])
 Delete a specific contact.
 
-**Kind**: static method of <code>[contacts](#module_contacts)</code>  
+**Kind**: static method of [<code>contacts</code>](#module_contacts)  
 
 | Param | Type | Description |
 | --- | --- | --- |
