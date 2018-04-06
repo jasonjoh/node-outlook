@@ -703,7 +703,7 @@ module.exports = {
    *     // the deltaLink has a $deltatoken, that means the sync is complete, and you should
    *     // store the $deltatoken value for future syncs.
    *     //
-   *     // The one exception to this rule is on the intial sync (when you call with no skip or delta tokens).
+   *     // The one exception to this rule is on the initial sync (when you call with no skip or delta tokens).
    *     // In this case you always get a $deltatoken back, even if there are more results. In this case, you should
    *     // immediately call syncMessages again, passing the $deltatoken value in apiOptions.deltaToken.
    *   }
