@@ -95,13 +95,13 @@ module.exports = {
    * 
    * @param parameters {object} An object containing all of the relevant parameters. Possible values:
    * @param parameters.token {string} The access token.
+   * @param parameters.startDateTime {string} The start time and date for the calendar view in ISO 8601 format without a timezone designator. Time zone is assumed to be UTC unless the `Prefer: outlook.timezone` header is sent in the request.
+   * @param parameters.endDateTime {string} The end time and date for the calendar view in ISO 8601 format without a timezone designator. Time zone is assumed to be UTC unless the `Prefer: outlook.timezone` header is sent in the request.
    * @param [parameters.skipToken] {string} The value to pass in the `skipToken` query parameter in the API call.
    * @param [parameters.deltaToken] {string} The value to pass in the `deltaToken` query parameter in the API call.
    * @param [parameters.useMe] {boolean} If true, use the `/Me` segment instead of the `/Users/<email>` segment. This parameter defaults to false and is ignored if the `parameters.user.email` parameter isn't provided (the `/Me` segment is always used in this case).
    * @param [parameters.user.email] {string} The SMTP address of the user. If absent, the `/Me` segment is used in the API URL.
    * @param [parameters.user.timezone] {string} The timezone of the user.
-   * @param [parameters.startDateTime] {string} The start time and date for the calendar view in ISO 8601 format without a timezone designator. Time zone is assumed to be UTC unless the `Prefer: outlook.timezone` header is sent in the request.
-   * @param [parameters.endDateTime] {string} The end time and date for the calendar view in ISO 8601 format without a timezone designator. Time zone is assumed to be UTC unless the `Prefer: outlook.timezone` header is sent in the request.
    * @param [parameters.calendarId] {string} The calendar id. If absent, the API calls the `/User/calendarview` endpoint. Valid values of this parameter are:
    * 
    * - The `Id` property of a `Calendar` entity
