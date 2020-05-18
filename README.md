@@ -1,5 +1,9 @@
 # Node.js Wrapper for Office 365 APIs Client Library
 
+## IMPORTANT
+
+## I a no longer maintaining this library, and I'm archiving this repository. Please consider using the [Microsoft Graph JavaScript Client Library](https://github.com/microsoftgraph/msgraph-sdk-javascript) instead.
+
 This library provides a light-weight implementation of the Outlook [Mail](https://msdn.microsoft.com/office/office365/APi/mail-rest-operations), [Calendar](https://msdn.microsoft.com/office/office365/APi/calendar-rest-operations), and [Contacts](https://msdn.microsoft.com/office/office365/APi/contacts-rest-operations) APIs.
 
 For a sample app that uses this library, see [Getting Started with the Outlook Mail API and Node.js](https://github.com/jasonjoh/node-tutorial).
